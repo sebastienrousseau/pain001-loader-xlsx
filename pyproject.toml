@@ -77,3 +77,23 @@ fail-under = 100
 ignore-init-module = true
 ignore-magic = true
 verbose = 1
+
+[tool.mypy]
+python_version = "3.10"
+strict = true
+
+[[tool.mypy.overrides]]
+# openpyxl ships no type stubs (types-openpyxl is a separate, third-party
+# package). The loader's openpyxl surface is narrow enough that wrapping
+# every cell access in `cast` would add noise without catching real bugs;
+# the runtime tests already cover the shape.
+module = "openpyxl.*"
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+# pain001's plugin contract is structurally typed (PEP 544 Protocols);
+# the package does not yet ship a py.typed marker so mypy can't see
+# the public types. Ignore the missing-import warning while still
+# treating the rest of the call graph strictly.
+module = "pain001.*"
+ignore_missing_imports = true
