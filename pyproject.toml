@@ -1,6 +1,6 @@
 [project]
 name = "pain001-loader-xlsx"
-version = "0.0.54"
+version = "0.0.53"
 description = "Read flat-record payment data from Excel .xlsx files for pain001."
 readme = "README.md"
 requires-python = ">=3.10"
