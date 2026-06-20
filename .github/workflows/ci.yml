@@ -109,10 +109,15 @@ jobs:
 
       - name: Verify tag matches package version
         run: |
+          # Parse the version literal directly rather than importing
+          # the package (which would transitively require openpyxl +
+          # pain001 to be installed first).
           TAG="${GITHUB_REF_NAME#v}"
-          PKG=$(python -c "import sys; sys.path.insert(0,'.'); import pain001_loader_xlsx; print(pain001_loader_xlsx.__version__)")
-          if [ "$TAG" != "$PKG" ]; then
-            echo "Tag $GITHUB_REF_NAME does not match package version $PKG" >&2
+          PKG_INIT=$(grep -E '^__version__' pain001_loader_xlsx/__init__.py | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+          PKG_TOML=$(grep -E '^version' pyproject.toml | grep -oE '[0-9]+\.[0-9]+\.[0-9]+')
+          echo "Tag: $TAG | __init__.py: $PKG_INIT | pyproject.toml: $PKG_TOML"
+          if [ "$TAG" != "$PKG_INIT" ] || [ "$PKG_INIT" != "$PKG_TOML" ]; then
+            echo "Version mismatch; aborting." >&2
             exit 1
           fi
 
