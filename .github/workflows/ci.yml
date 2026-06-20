@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "feat/**"]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Install pain001 + this package + dev tools
+        run: |
+          python -m pip install --upgrade pip
+          # On feat/* branches the matching pain001 feat branch isn't
+          # yet on PyPI; install from git. Otherwise resolve from PyPI.
+          REF="${{ github.head_ref || github.ref_name }}"
+          if [[ "$REF" == feat/* ]]; then
+            pip install "pain001 @ git+https://github.com/sebastienrousseau/pain001@${REF}"
+          else
+            pip install "pain001>=0.0.54,<1"
+          fi
+          pip install -e ".[dev]"
+
+      - name: Run tests with 100% coverage gate
+        run: |
+          pytest tests/ \
+            --cov=pain001_loader_xlsx --cov-branch \
+            --cov-report=term-missing \
+            --cov-report=xml \
+            --cov-fail-under=100
+
+      - name: Enforce 100% docstring coverage
+        run: interrogate -c pyproject.toml pain001_loader_xlsx
+
+  lint:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install pain001 + this package + dev tools
+        run: |
+          python -m pip install --upgrade pip
+          REF="${{ github.head_ref || github.ref_name }}"
+          if [[ "$REF" == feat/* ]]; then
+            pip install "pain001 @ git+https://github.com/sebastienrousseau/pain001@${REF}"
+          else
+            pip install "pain001>=0.0.54,<1"
+          fi
+          pip install -e ".[dev]"
+
+      - name: Ruff check
+        run: ruff check pain001_loader_xlsx/ tests/
+
+      - name: Ruff format check
+        run: ruff format --check pain001_loader_xlsx/ tests/
+
+      - name: Mypy
+        run: mypy pain001_loader_xlsx/
