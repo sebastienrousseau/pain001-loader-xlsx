@@ -29,17 +29,9 @@ jobs:
       - name: Install pain001 + this package + dev tools
         run: |
           python -m pip install --upgrade pip
-          # The plugin substrate that powers auto-discovery lands in
-          # pain001 v0.0.54. While that release is in flight, install
-          # pain001 from its feat/v0.0.54 branch. Once pain001 v0.0.54
-          # is on PyPI this block reduces to a single ``pip install
-          # pain001>=0.0.54,<1`` line.
-          if pip install "pain001>=0.0.54,<1" 2>/dev/null; then
-            echo "Installed pain001 from PyPI."
-          else
-            echo "pain001 v0.0.54 not yet on PyPI; installing from git."
-            pip install "pain001 @ git+https://github.com/sebastienrousseau/pain001@feat/v0.0.54"
-          fi
+          # pain001>=0.0.56 ships the pain001.plugins substrate that powers
+          # this loader's entry-point auto-discovery.
+          pip install "pain001>=0.0.56,<1"
           pip install -e ".[dev]"
 
       - name: Run tests with 100% coverage gate
@@ -68,13 +60,8 @@ jobs:
       - name: Install pain001 + this package + dev tools
         run: |
           python -m pip install --upgrade pip
-          # Same fallback as the test job: PyPI first, git+main second.
-          if pip install "pain001>=0.0.54,<1" 2>/dev/null; then
-            echo "Installed pain001 from PyPI."
-          else
-            echo "pain001 v0.0.54 not yet on PyPI; installing from git."
-            pip install "pain001 @ git+https://github.com/sebastienrousseau/pain001@feat/v0.0.54"
-          fi
+          # pain001>=0.0.56 ships the pain001.plugins substrate.
+          pip install "pain001>=0.0.56,<1"
           pip install -e ".[dev]"
 
       - name: Ruff check

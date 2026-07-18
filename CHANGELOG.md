@@ -8,6 +8,15 @@ This package's version follows the [`pain001`](https://github.com/sebastienrouss
 suite (`pain001`, `pain001-mcp`, `pain001-lsp`); a `0.0.X` release of
 this package targets the `0.0.X` release of `pain001`.
 
+## [0.0.54] - 2026-07-18
+
+### Changed
+
+- Require `pain001 >= 0.0.56` — the release that ships the `pain001.plugins`
+  substrate this loader auto-discovers through. (The substrate landed on PyPI
+  in pain001 0.0.56, alongside the 0.0.55 path-injection hardening; the CI
+  git-branch fallback used while it was in flight is removed.)
+
 ## [0.0.53] - 2026-06-20
 
 ### Added

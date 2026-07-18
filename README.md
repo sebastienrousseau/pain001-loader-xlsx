@@ -128,7 +128,7 @@ Confirm pain001 sees the loader:
 pain001 plugins list --kind loader --json | python -m json.tool
 # [
 #   { "kind": "loader", "name": "xlsx",
-#     "source": "pain001-loader-xlsx==0.0.53", ... },
+#     "source": "pain001-loader-xlsx==0.0.54", ... },
 #   ...
 # ]
 ```
@@ -305,7 +305,7 @@ Quality gates (kept in lockstep with CI):
 | `ruff format --check pain001_loader_xlsx tests` | Format |
 | `mypy pain001_loader_xlsx` | Type check |
 
-Current state (v0.0.53): **12 tests passing, 100% line + branch
+Current state (v0.0.54): **12 tests passing, 100% line + branch
 coverage**, ruff + mypy clean, interrogate 100% docstring coverage.
 
 ---

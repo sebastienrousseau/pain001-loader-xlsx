@@ -1,6 +1,6 @@
 [project]
 name = "pain001-loader-xlsx"
-version = "0.0.53"
+version = "0.0.54"
 description = "Read flat-record payment data from Excel .xlsx files for pain001."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -20,7 +20,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "pain001 >= 0.0.54, < 1",
+    "pain001 >= 0.0.56, < 1",
     "openpyxl >= 3.1, < 4",
 ]
 
