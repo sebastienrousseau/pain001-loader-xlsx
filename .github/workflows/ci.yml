@@ -45,6 +45,21 @@ jobs:
       - name: Enforce 100% docstring coverage
         run: interrogate -c pyproject.toml pain001_loader_xlsx
 
+      # The scaling and memory guards compare the loader against itself,
+      # so they do not depend on how fast this runner is.
+      # --benchmark-json keeps the measurement as an artifact.
+      - name: Benchmarks, scaling and memory guards
+        run: |
+          mkdir -p .benchmarks
+          pytest tests/test_benchmarks.py -v --no-cov \
+            --benchmark-json=.benchmarks/results.json
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmarks-py${{ matrix.python-version }}
+          path: .benchmarks/
+
   # release.yml refuses to publish without releases/v<version>.md, but it
   # only finds out after a tag has been pushed — which is how v0.1.0 failed
   # with "Release notes missing at releases/v0.1.0.md" on an already-public
