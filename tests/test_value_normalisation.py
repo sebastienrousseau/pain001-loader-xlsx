@@ -139,7 +139,11 @@ class TestTemporalCells:
         """The user has to find the cell, so the message must locate it."""
         book = _book(
             tmp_path,
-            [["id", "payment_date"], ["1", "2026-03-01"], ["2", dt.date(2026, 3, 1)]],
+            [
+                ["id", "payment_date"],
+                ["1", "2026-03-01"],
+                ["2", dt.date(2026, 3, 1)],
+            ],
         )
 
         with pytest.raises(ValueError) as excinfo:

@@ -31,20 +31,19 @@ from wiring an IBAN with a missing digit to a bank.
 
 from __future__ import annotations
 
+import datetime as _dt
 from collections.abc import Iterable
 from importlib import metadata
 from typing import Any
 
-import datetime as _dt
-
 import openpyxl
-
-from pain001_loader_xlsx._normalise import to_text
 from pain001.plugins import (
     PAIN001_API_VERSION,
     LoaderResult,
     PluginMeta,
 )
+
+from pain001_loader_xlsx._normalise import to_text
 
 # Columns whose values are bank identifiers and must never be read
 # from an Excel "General" cell (Excel strips leading zeros from
@@ -183,10 +182,7 @@ class XlsxLoader:
             yield dict(
                 zip(
                     headers,
-                    (
-                        to_text(cell.value, cell.number_format)
-                        for cell in row
-                    ),
+                    (to_text(cell.value, cell.number_format) for cell in row),
                     strict=False,
                 )
             )

@@ -227,9 +227,9 @@ from pain001_loader_xlsx import XlsxLoader
 loader = XlsxLoader()
 result = loader.load("payments.xlsx")
 
-print(result.source_hint)        # -> "payments.xlsx"
-print(len(result.rows))          # -> 42
-print(result.rows[0]["id"])      # -> "MSG-0001"
+print(result.source_hint)  # -> "payments.xlsx"
+print(len(result.rows))  # -> 42
+print(result.rows[0]["id"])  # -> "MSG-0001"
 ```
 
 Streaming variant for batches that don't fit in memory:
