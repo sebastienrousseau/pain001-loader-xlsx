@@ -28,6 +28,7 @@ dependencies = [
 dev = [
     "pytest >= 8",
     "pytest-cov >= 5",
+    "pytest-benchmark>=5",
     "ruff >= 0.6",
     "mypy >= 1.11",
     "interrogate >= 1.7",
@@ -62,6 +63,9 @@ select = ["E", "F", "I", "B", "C4", "UP", "N", "SIM"]
 
 [tool.pytest.ini_options]
 addopts = "--strict-markers --strict-config -q"
+markers = [
+    "benchmark: performance measurement or scaling/memory guard",
+]
 testpaths = ["tests"]
 
 [tool.coverage.run]
