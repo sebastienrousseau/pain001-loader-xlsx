@@ -97,7 +97,10 @@ def test_load_returns_one_dict_per_data_row(xlsx_file):
     assert len(result.rows) == 2
     assert result.rows[0]["id"] == "MSG-001"
     assert result.rows[0]["debtor_account_IBAN"] == "DE89370400440532013000"
-    assert result.rows[1]["amount"] == 250.50
+    # Values are strings, matching csv.DictReader — see CHANGELOG
+    # 0.0.55: a float here renders as "250.5" in the XML where the
+    # CSV path renders "250.50".
+    assert result.rows[1]["amount"] == "250.5"
 
 
 def test_load_refuses_numeric_iban_cell(xlsx_with_numeric_iban):
@@ -146,7 +149,7 @@ def test_load_handles_header_row_with_blank_columns(tmp_path):
     # The empty header becomes "" in our dict.
     assert "" in result.rows[0]
     assert result.rows[0]["id"] == "MSG-001"
-    assert result.rows[0]["amount"] == 100.00
+    assert result.rows[0]["amount"] == "100"
 
 
 # ---------------------------------------------------------------------------

@@ -8,6 +8,34 @@ This package's version follows the [`pain001`](https://github.com/sebastienrouss
 suite (`pain001`, `pain001-mcp`, `pain001-lsp`); a `0.0.X` release of
 this package targets the `0.0.X` release of `pain001`.
 
+## [Unreleased]
+
+### Fixed
+
+- **Cell values are strings, matching `csv.DictReader`.** pain001
+  renders XML from whatever a loader returns, and its CSV loader yields
+  strings. This loader returned Excel's native types, so a cell
+  displaying `100.00` — stored as the float `100.0` — reached the XML
+  as `100.0` where the CSV path produced `100.00`. Same spreadsheet,
+  two different amounts, depending on which container it arrived in.
+
+  Numeric cells are now rendered through the cell's `number_format`,
+  which is the only record of the intended precision, so `100.0` with
+  format `0.00` emits `"100.00"`.
+
+  **Breaking:** callers reading `result.rows[...]` now receive `str`
+  where they previously received `int` / `float`. That is the shape
+  pain001 has always consumed.
+
+- **Excel date/time cells are refused.** They previously passed through
+  untouched, so a `datetime` object reached pain001 and stringified as
+  `2026-03-01 00:00:00` — a value no ISO 20022 date field accepts.
+  Excel stores dates as offsets against a workbook epoch and the 1900
+  and 1904 systems differ by four years, so the loader will not guess.
+  The error names the sheet, column and row, and says to format the
+  column as Text and use ISO-8601 — completing the date-handling
+  requirement of pain001#180.
+
 ## [0.0.54] - 2026-07-18
 
 ### Changed
