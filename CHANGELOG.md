@@ -4,29 +4,32 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-This package versions **independently** of the
-[`pain001`](https://github.com/sebastienrousseau/pain001) core. It
-implements the published plugin contract rather than wrapping the
-core's own surface, so a loader fix ships without waiting for a core
-release, and a core release does not force one here.
+Every package in the
+[`pain001`](https://github.com/sebastienrousseau/pain001) suite ships
+the **same version number** — the core, `pain001-mcp`, `pain001-lsp`,
+`pain001-loader-xlsx` and `pain001-loader-mt101`. If the core is at
+`0.0.60` then so is this package, so there is no compatibility table to
+consult. Versions advance in `0.0.1` steps along the `0.0.x` line;
+`0.1.0` follows `0.0.999`.
 
-What binds the two is the contract generation, `PAIN001_API_VERSION`,
-which pain001's registry enforces when it loads a plugin — a plugin
-ahead of the host raises rather than misbehaving — together with the
-`pain001` floor in `pyproject.toml`.
-
-The wrappers (`pain001-mcp`, `pain001-lsp`) *do* move in lockstep with
-the core. See `pain001.suite` for which members follow which rule.
+`PAIN001_API_VERSION` still guards the plugin contract at load time — a
+plugin built against a newer contract than its host raises rather than
+misbehaving — but it is a safety net, not the versioning rule. See
+`pain001.suite`, which a daily job checks against PyPI.
 
 ## [Unreleased]
 
-## [0.1.0] - 2026-08-20
+## [0.0.60] - 2026-08-20
 
-Moves off the suite-shaped `0.0.X` line. The previous number said this
-package "targets the `0.0.X` release of `pain001`" while `0.0.54`
-required `pain001>=0.0.56` — a version claiming to belong to a release
-it predates. Plugins version independently; `0.1.0` says so plainly and
-carries the breaking change below.
+Joins the suite's version line. The previous number said this package
+"targets the `0.0.X` release of `pain001`" while `0.0.54` required
+`pain001>=0.0.56` — a version claiming to belong to a release it
+predates.
+
+An earlier draft resolved that by moving to `0.1.0` and declaring the
+loaders independently versioned. That was the wrong way round: the rule
+was right and the metadata was wrong. `0.0.60` matches the core and
+every other member, and carries the breaking change below.
 
 
 ### Fixed
