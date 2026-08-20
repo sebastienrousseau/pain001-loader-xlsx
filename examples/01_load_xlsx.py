@@ -51,7 +51,9 @@ def main() -> None:
         print(f"rows loaded: {len(result.rows)}")
         for row in result.rows:
             iban = row["debtor_account_IBAN"]
-            print(f"  - {row['id']}  {row['amount']:.2f}  {iban}")
+            # Values arrive as strings, exactly as the CSV loader
+            # delivers them, so no numeric formatting is applied here.
+            print(f"  - {row['id']}  {row['amount']}  {iban}")
         # -> source_hint: /tmp/.../payments.xlsx
         # -> rows loaded: 2
         # -> MSG-0001  100.00  DE89370400440532013000

@@ -4,9 +4,56 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-This package's version follows the [`pain001`](https://github.com/sebastienrousseau/pain001)
-suite (`pain001`, `pain001-mcp`, `pain001-lsp`); a `0.0.X` release of
-this package targets the `0.0.X` release of `pain001`.
+This package versions **independently** of the
+[`pain001`](https://github.com/sebastienrousseau/pain001) core. It
+implements the published plugin contract rather than wrapping the
+core's own surface, so a loader fix ships without waiting for a core
+release, and a core release does not force one here.
+
+What binds the two is the contract generation, `PAIN001_API_VERSION`,
+which pain001's registry enforces when it loads a plugin — a plugin
+ahead of the host raises rather than misbehaving — together with the
+`pain001` floor in `pyproject.toml`.
+
+The wrappers (`pain001-mcp`, `pain001-lsp`) *do* move in lockstep with
+the core. See `pain001.suite` for which members follow which rule.
+
+## [Unreleased]
+
+## [0.1.0] - 2026-08-20
+
+Moves off the suite-shaped `0.0.X` line. The previous number said this
+package "targets the `0.0.X` release of `pain001`" while `0.0.54`
+required `pain001>=0.0.56` — a version claiming to belong to a release
+it predates. Plugins version independently; `0.1.0` says so plainly and
+carries the breaking change below.
+
+
+### Fixed
+
+- **Cell values are strings, matching `csv.DictReader`.** pain001
+  renders XML from whatever a loader returns, and its CSV loader yields
+  strings. This loader returned Excel's native types, so a cell
+  displaying `100.00` — stored as the float `100.0` — reached the XML
+  as `100.0` where the CSV path produced `100.00`. Same spreadsheet,
+  two different amounts, depending on which container it arrived in.
+
+  Numeric cells are now rendered through the cell's `number_format`,
+  which is the only record of the intended precision, so `100.0` with
+  format `0.00` emits `"100.00"`.
+
+  **Breaking:** callers reading `result.rows[...]` now receive `str`
+  where they previously received `int` / `float`. That is the shape
+  pain001 has always consumed.
+
+- **Excel date/time cells are refused.** They previously passed through
+  untouched, so a `datetime` object reached pain001 and stringified as
+  `2026-03-01 00:00:00` — a value no ISO 20022 date field accepts.
+  Excel stores dates as offsets against a workbook epoch and the 1900
+  and 1904 systems differ by four years, so the loader will not guess.
+  The error names the sheet, column and row, and says to format the
+  column as Text and use ISO-8601 — completing the date-handling
+  requirement of pain001#180.
 
 ## [0.0.54] - 2026-07-18
 

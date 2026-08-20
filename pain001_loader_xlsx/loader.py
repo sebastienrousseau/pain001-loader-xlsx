@@ -31,6 +31,7 @@ from wiring an IBAN with a missing digit to a bank.
 
 from __future__ import annotations
 
+import datetime as _dt
 from collections.abc import Iterable
 from importlib import metadata
 from typing import Any
@@ -41,6 +42,8 @@ from pain001.plugins import (
     LoaderResult,
     PluginMeta,
 )
+
+from pain001_loader_xlsx._normalise import to_text
 
 # Columns whose values are bank identifiers and must never be read
 # from an Excel "General" cell (Excel strips leading zeros from
@@ -67,6 +70,10 @@ def _plugin_version() -> str:
         return metadata.version("pain001-loader-xlsx")
     except metadata.PackageNotFoundError:  # pragma: no cover - dev install
         return "0.0.0"
+
+
+#: Temporal types openpyxl produces from date/time-formatted cells.
+_TEMPORAL_TYPES = (_dt.datetime, _dt.date, _dt.time, _dt.timedelta)
 
 
 class XlsxLoader:
@@ -169,16 +176,60 @@ class XlsxLoader:
             for idx, name in enumerate(headers)
             if str(name).strip().lower() in _IBAN_HEADERS
         }
-        for row in rows_iter:
+        for row_number, row in enumerate(rows_iter, start=2):
             self._guard_iban_cells(row, iban_columns, headers, path)
+            self._guard_temporal_cells(row, headers, path, row_number)
             yield dict(
                 zip(
                     headers,
-                    (cell.value for cell in row),
+                    (to_text(cell.value, cell.number_format) for cell in row),
                     strict=False,
                 )
             )
         workbook.close()
+
+    def _guard_temporal_cells(
+        self,
+        row: tuple[Any, ...],
+        headers: list[Any],
+        path: str,
+        row_number: int,
+    ) -> None:
+        """Raise when a cell holds an Excel date, time, or duration.
+
+        Excel stores dates as offsets against a workbook epoch, and the
+        1900 and 1904 systems disagree by four years. Rendering one back
+        to ISO-8601 is a guess about a setting this loader cannot see,
+        and a payment execution date wrong by four years is worse than
+        a refusal.
+
+        Without this, a ``datetime`` object flows through untouched and
+        is stringified downstream as ``2026-03-01 00:00:00`` — a value
+        no ISO 20022 date field accepts.
+
+        Args:
+            row: The current data row's cells.
+            headers: The header-row values (for the error message).
+            path: The source file path (for the error message).
+            row_number: One-based worksheet row, matching Excel's own
+                numbering so the user can go straight to the cell.
+
+        Raises:
+            ValueError: When any cell carries a temporal type.
+        """
+        for idx, cell in enumerate(row):
+            if isinstance(cell.value, _TEMPORAL_TYPES):
+                column_name = headers[idx] if idx < len(headers) else idx
+                raise ValueError(
+                    f"workbook {path!r} column {column_name!r} row "
+                    f"{row_number} is an Excel "
+                    f"{type(cell.value).__name__} cell. Excel stores dates "
+                    "against a workbook epoch (the 1900 and 1904 systems "
+                    "differ by four years), which this loader will not "
+                    "guess at. Re-type the column as 'Text' (in Excel: "
+                    "select the column, Format Cells -> Number -> Text) "
+                    "and write dates as ISO-8601 (YYYY-MM-DD)."
+                )
 
     def _guard_iban_cells(
         self,
