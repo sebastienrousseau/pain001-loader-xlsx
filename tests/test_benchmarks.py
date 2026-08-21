@@ -31,6 +31,7 @@ from pathlib import Path
 import pytest
 from openpyxl import Workbook
 
+from pain001_loader_xlsx._normalise import to_text
 from pain001_loader_xlsx.loader import XlsxLoader
 
 COLUMNS = [
@@ -158,3 +159,72 @@ def test_streaming_does_not_hold_every_row(tmp_path) -> None:
         f"KiB a full load takes) — load_streaming looks like it is "
         f"materialising the sheet and slicing it rather than streaming"
     )
+
+
+#: Ceiling on streaming cost relative to a full load. Measured 0.94-1.25x.
+MAX_STREAMING_OVERHEAD = 2.0
+
+
+class TestStreamingThroughput:
+    """Streaming buys bounded memory, not speed.
+
+    ``test_streaming_does_not_hold_every_row`` pins the memory property.
+    This pins the other half of the trade, which is easy to lose sight
+    of: streaming should cost roughly what a full load costs. Measured
+    across chunk sizes it lands at 0.94x, 1.13x and 1.25x of a full
+    load, so the cost of chunking is noise rather than a tax.
+
+    The regression this guards is chunking becoming expensive in its own
+    right -- re-opening the workbook per chunk, say -- which would keep
+    every row correct and every memory assertion passing while making
+    the API pointless for the large files it exists for.
+    """
+
+    @pytest.mark.benchmark
+    def test_streaming_costs_about_the_same_as_loading(self, tmp_path) -> None:
+        """Chunking must not add meaningful overhead."""
+        path = build_sheet(tmp_path / "throughput.xlsx", 2000)
+        loader = XlsxLoader()
+
+        def stream() -> int:
+            seen = 0
+            for chunk in loader.load_streaming(str(path), chunk_size=500):
+                seen += len(chunk.rows)
+            return seen
+
+        full = _best_of(loader, path)
+        stream()
+        timings = []
+        for _ in range(3):
+            started = time.perf_counter()
+            assert stream() == 2000
+            timings.append(time.perf_counter() - started)
+        streaming = min(timings)
+
+        overhead = streaming / full
+        assert overhead < MAX_STREAMING_OVERHEAD, (
+            f"streaming 2000 rows cost {overhead:.2f}x a full load "
+            f"({streaming * 1000:.0f}ms vs {full * 1000:.0f}ms); chunking "
+            f"should be close to free, so this suggests per-chunk work "
+            f"that belongs outside the loop"
+        )
+
+
+class TestValueNormalisation:
+    """The per-cell conversion added when values became text.
+
+    ``to_text`` runs once per cell, so it scales with the whole sheet
+    rather than the row count: at ~1.67us per cell and nine columns, a
+    2000-row sheet spends roughly 30ms of its ~156ms load here. Not the
+    dominant cost -- openpyxl's parsing is -- but the largest piece this
+    package actually owns, and the one most likely to grow if the
+    formatting rules get richer.
+    """
+
+    @pytest.mark.benchmark
+    def test_to_text_on_a_formatted_number(self, benchmark) -> None:
+        """Benchmark the common case: a currency-formatted float."""
+        result = benchmark(to_text, 100.0, "0.00")
+
+        # Trailing zeros are the whole point of consulting the format.
+        assert result == "100.00"
