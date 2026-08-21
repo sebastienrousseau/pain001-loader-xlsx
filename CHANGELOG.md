@@ -19,6 +19,26 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
+## [0.0.62] - 2026-08-21
+
+### Added
+
+- **Benchmarks for streaming throughput and value normalisation.** The
+  0.0.61 set measured a full load, its scaling, and that
+  `load_streaming` does not hold every row. Two gaps remained.
+
+  Streaming should also cost roughly what a full load costs, and does:
+  0.94x, 1.13x and 1.25x across chunk sizes. The guard is against
+  chunking becoming expensive in its own right — re-opening the workbook
+  per chunk, say — which would keep every row correct and leave the
+  memory assertion passing while making the API pointless for the large
+  files it exists for.
+
+  `to_text` runs once per cell, so it scales with the sheet rather than
+  the row count: ~1.67us per cell, roughly 30ms of a ~156ms 2000-row
+  load. Not dominant — openpyxl's parsing is — but the largest piece
+  this package owns.
+
 ## [0.0.61] - 2026-08-20
 
 Suite release with `pain001` 0.0.61. No change in this package.
