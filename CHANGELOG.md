@@ -19,6 +19,21 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
+## [0.0.61] - 2026-08-20
+
+Suite release with `pain001` 0.0.61. No change in this package.
+
+The core's 0.0.61 is a performance release — libxml2 XSD validation and
+a fix for quadratic CSV diagnostics — and neither touches this loader,
+which reads spreadsheets and goes through neither path. The version
+moves because every member of the suite ships the same number.
+
+Note that 0.0.60 was never published for this package. It was prepared
+and tagged, but the tag failed before the publish step and the suite had
+moved to 0.0.61 by the time it was corrected, so 0.0.60 is skipped and
+this release carries its contents: values normalised to text, and
+temporal cells refused. See the 0.0.60 entry below for the detail.
+
 ## [0.0.60] - 2026-08-20
 
 Joins the suite's version line. The previous number said this package
