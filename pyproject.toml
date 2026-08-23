@@ -4,7 +4,7 @@ version = "0.0.62"
 description = "Read flat-record payment data from Excel .xlsx files for pain001."
 readme = "README.md"
 requires-python = ">=3.10"
-license = "Apache-2.0"
+license = "Apache-2.0 OR MIT"
 authors = [{ name = "Sebastien Rousseau", email = "sebastian.rousseau@gmail.com" }]
 keywords = ["iso20022", "pain001", "sepa", "xlsx", "excel", "plugin"]
 classifiers = [
