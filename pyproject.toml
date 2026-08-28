@@ -1,6 +1,6 @@
 [project]
 name = "pain001-loader-xlsx"
-version = "0.0.62"
+version = "0.0.63"
 description = "Read flat-record payment data from Excel .xlsx files for pain001."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -62,7 +62,7 @@ target-version = "py310"
 select = ["E", "F", "I", "B", "C4", "UP", "N", "SIM"]
 
 [tool.pytest.ini_options]
-addopts = "--strict-markers --strict-config -q"
+addopts = "--strict-markers --strict-config -q --cov=pain001_loader_xlsx --cov-branch --cov-report=term-missing"
 markers = [
     "benchmark: performance measurement or scaling/memory guard",
 ]
@@ -73,6 +73,8 @@ branch = true
 source = ["pain001_loader_xlsx"]
 
 [tool.coverage.report]
+# The one place the floor is stated.
+fail_under = 100
 exclude_lines = ["pragma: no cover", "raise NotImplementedError"]
 show_missing = true
 
