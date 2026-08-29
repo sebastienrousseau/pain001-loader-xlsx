@@ -17,6 +17,43 @@ plugin built against a newer contract than its host raises rather than
 misbehaving — but it is a safety net, not the versioning rule. See
 `pain001.suite`, which a daily job checks against PyPI.
 
+## [0.0.65] - 2026-08-29
+
+Aligns the `pain001` suite on one version number, and adds the gates this
+repository was missing.
+
+### Added
+
+- `benches/bench_load_xlsx.py`, which measures the only thing that
+  separates `load` from `load_streaming`: peak memory. At 10,000 rows,
+  streaming and releasing each chunk peaks **4.5× lower** (1.96 MB
+  against 8.73 MB) and stays roughly flat as the file grows. Time is
+  unchanged — openpyxl's parsing dominates both paths.
+- A third column, `materialised`, showing that
+  `list(load_streaming(...))` costs exactly what `load()` costs. It is
+  there because the first version of this benchmark measured streaming
+  that way and reported that streaming saves nothing — a wrong number
+  that looked plausible. Callers make the same mistake in real code: the
+  saving comes from consuming a chunk and letting it go.
+- `docs/benchmarks.md`, `CONTRIBUTING.md`.
+- `scripts/check_suite_consistency.py` and a scheduled `Suite
+  Consistency` workflow comparing this tree, and every published member,
+  against PyPI.
+- `tests/test_suite_conformance.py`, the shared suite conformance gate.
+
+### Changed
+
+- Version aligned to `0.0.65` across all five `pain001` packages, which
+  had drifted to `0.0.62`, `0.0.64`, `0.0.63`, `0.0.62` and `0.0.63`.
+- `SECURITY.md`'s supported-version table follows the bump.
+
+### Removed
+
+- The stray `v0.1.0` tag. It was pushed in error on 2026-08-20 against a
+  tree that briefly declared `0.1.0`, was never released to PyPI and had
+  no GitHub release, and contradicted the suite's `0.0.x` numbering. The
+  line it interrupted continued correctly at `0.0.61`.
+
 ## [0.0.63] - 2026-08-28
 
 ### Changed

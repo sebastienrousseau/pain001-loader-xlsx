@@ -41,6 +41,13 @@ jobs:
           # Only the XML report is CI-specific.
           pytest tests/ --cov-report=xml -v
 
+      # Not a timing gate -- wall-clock is not comparable between
+      # runners. This proves the benchmark still runs against the
+      # current API rather than rotting into a file that reads as
+      # verified and is not.
+      - name: Run the benchmark
+        run: python benches/bench_load_xlsx.py --quick
+
       - name: Enforce 100% docstring coverage
         run: interrogate -c pyproject.toml pain001_loader_xlsx
 
@@ -100,10 +107,10 @@ jobs:
           pip install -e ".[dev]"
 
       - name: Ruff check
-        run: ruff check pain001_loader_xlsx/ tests/ examples/
+        run: ruff check pain001_loader_xlsx/ tests/ examples/ benches/ scripts/
 
       - name: Ruff format check
-        run: ruff format --check pain001_loader_xlsx/ tests/ examples/
+        run: ruff format --check pain001_loader_xlsx/ tests/ examples/ benches/ scripts/
 
       - name: Mypy
         run: mypy pain001_loader_xlsx/
