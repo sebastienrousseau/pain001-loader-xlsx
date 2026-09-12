@@ -17,6 +17,18 @@ plugin built against a newer contract than its host raises rather than
 misbehaving — but it is a safety net, not the versioning rule. See
 `pain001.suite`, which a daily job checks against PyPI.
 
+## [0.0.68] - 2026-09-12
+
+Aligns the `pain001` suite on `0.0.68`, the core's second example-corpus
+release: the tier-1 market packs (UK, SEPA core, US, CH, SE), coverage
+files named by recipe and focus, and the tooling to apply a bank's own
+guideline privately. Nothing in this package changed.
+
+### Changed
+
+- Version aligned to `0.0.68` across all five `pain001` packages.
+- `SECURITY.md`'s supported-version table follows the bump.
+
 ## [0.0.67] - 2026-09-12
 
 Aligns the `pain001` suite on `0.0.67`, the core's first example-corpus
