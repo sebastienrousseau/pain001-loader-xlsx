@@ -12,7 +12,7 @@ the latest major. While pre-`1.0`, that means **the latest released
 
 | Version | Status | Receives security fixes? |
 | :--- | :--- | :--- |
-| `0.0.65` (latest) | Current | ✅ Yes |
+| `0.0.66` (latest) | Current | ✅ Yes |
 | `0.0.54` | Prior | ✅ Yes |
 | `≤ 0.0.52` | Old | ❌ No — upgrade |
 
