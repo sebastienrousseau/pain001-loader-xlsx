@@ -17,6 +17,17 @@ plugin built against a newer contract than its host raises rather than
 misbehaving — but it is a safety net, not the versioning rule. See
 `pain001.suite`, which a daily job checks against PyPI.
 
+## [0.0.66] - 2026-09-12
+
+Aligns the `pain001` suite on `0.0.66`, the core release that adds
+cross-record duplicate detection, the `/api/v1/ui` dashboard, GPG
+flags and OpenTelemetry spans. Nothing in this package changed.
+
+### Changed
+
+- Version aligned to `0.0.66` across all five `pain001` packages.
+- `SECURITY.md`'s supported-version table follows the bump.
+
 ## [0.0.65] - 2026-08-29
 
 Aligns the `pain001` suite on one version number, and adds the gates this
