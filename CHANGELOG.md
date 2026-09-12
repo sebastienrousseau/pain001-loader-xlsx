@@ -17,6 +17,18 @@ plugin built against a newer contract than its host raises rather than
 misbehaving — but it is a safety net, not the versioning rule. See
 `pain001.suite`, which a daily job checks against PyPI.
 
+## [0.0.67] - 2026-09-12
+
+Aligns the `pain001` suite on `0.0.67`, the core's first example-corpus
+release: validated pain.001 example files per country and rail with
+their provenance, and the schema coverage sets. Nothing in this package
+changed.
+
+### Changed
+
+- Version aligned to `0.0.67` across all five `pain001` packages.
+- `SECURITY.md`'s supported-version table follows the bump.
+
 ## [0.0.66] - 2026-09-12
 
 Aligns the `pain001` suite on `0.0.66`, the core release that adds
