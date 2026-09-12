@@ -17,6 +17,17 @@ plugin built against a newer contract than its host raises rather than
 misbehaving — but it is a safety net, not the versioning rule. See
 `pain001.suite`, which a daily job checks against PyPI.
 
+## [0.0.70] - 2026-09-13
+
+Aligns the `pain001` suite on `0.0.70`: the core's rail rules now read the
+CSV pipeline's column names, and its optional dependencies load on use
+rather than on import. Nothing in this package changed.
+
+### Changed
+
+- Version aligned to `0.0.70` across all five `pain001` packages.
+- `SECURITY.md`'s supported-version table follows the bump.
+
 ## [0.0.69] - 2026-09-12
 
 Aligns the `pain001` suite on `0.0.69`, the core's third example-corpus
