@@ -17,6 +17,18 @@ plugin built against a newer contract than its host raises rather than
 misbehaving — but it is a safety net, not the versioning rule. See
 `pain001.suite`, which a daily job checks against PyPI.
 
+## [0.0.69] - 2026-09-12
+
+Aligns the `pain001` suite on `0.0.69`, the core's third example-corpus
+release: the tier 2 and 3 market packs, the CSV pipeline extension and
+the pain.001 twin foundation (lossless ISO JSON twins with their
+schemas). Nothing in this package changed.
+
+### Changed
+
+- Version aligned to `0.0.69` across all five `pain001` packages.
+- `SECURITY.md`'s supported-version table follows the bump.
+
 ## [0.0.68] - 2026-09-12
 
 Aligns the `pain001` suite on `0.0.68`, the core's second example-corpus
