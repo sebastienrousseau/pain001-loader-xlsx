@@ -27,6 +27,11 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+docs = [
+    "sphinx >= 7",
+    "furo >= 2024",
+    "myst-parser >= 3",
+]
 dev = [
     "pytest >= 8",
     "pytest-cov >= 5",
@@ -109,3 +114,16 @@ ignore_missing_imports = true
 # treating the rest of the call graph strictly.
 module = "pain001.*"
 ignore_missing_imports = true
+
+[tool.mutmut]
+# Mutation testing (mutmut 3) over the loader and the normaliser. The benchmarks and
+# the suite conformance file are excluded from the selection because
+# they do not test loader logic and dominate runtime.
+source_paths = ["pain001_loader_xlsx"]
+also_copy = ["examples"]
+pytest_add_cli_args = ["-q", "-p", "no:cacheprovider", "--no-cov", "--benchmark-disable"]
+pytest_add_cli_args_test_selection = [
+    "tests/test_loader.py",
+    "tests/test_value_normalisation.py",
+    "tests/test_guard_messages.py",
+]
