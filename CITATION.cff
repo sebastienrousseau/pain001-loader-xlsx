@@ -1,0 +1,24 @@
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+cff-version: 1.2.0
+message: "If you use pain001-loader-xlsx in research or production write-ups, please cite it as below."
+type: software
+title: "pain001-loader-xlsx: Excel workbooks as input to ISO 20022 pain.001"
+abstract: >-
+  A loader plugin for the pain001 library that reads payment batches
+  directly from .xlsx and .xlsm workbooks, with a type guard against
+  numeric-IBAN corruption and streaming for large batches.
+authors:
+  - family-names: Rousseau
+    given-names: Sebastien
+    email: sebastian.rousseau@gmail.com
+version: "0.0.70"
+date-released: "2026-09-13"
+license: "Apache-2.0 OR MIT"
+repository-code: "https://github.com/sebastienrousseau/pain001-loader-xlsx"
+url: "https://pain001.com"
+keywords:
+  - ISO 20022
+  - pain.001
+  - Excel
+  - xlsx
+  - payments
