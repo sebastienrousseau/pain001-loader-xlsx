@@ -16,3 +16,8 @@ build/
 dist/
 *.egg-info/
 .DS_Store
+
+# mutmut 3 working copy and results
+mutants/
+# Sphinx build
+docs/_build/

@@ -26,6 +26,10 @@
 
 ---
 
+> **Coming from a spreadsheet for the first time?** The one command and
+> what the loader protects you from are at
+> <https://pain001.com/excel-to-pain001/>.
+
 ## Contents
 
 **Getting started**
