@@ -1,4 +1,13 @@
-name: Publish Release
+# Release: build once, prove it, publish it. Same shape as pain001-mcp.
+#
+#   build           sdist + wheel, twine check, SLSA build provenance
+#                   attestation (GitHub), keyless sigstore signatures
+#   github-release  the distributions and their .sig/.pem on the release
+#   pypi-publish    PyPI trusted publishing (OIDC), PEP 740 attestations
+#   sbom            CycloneDX + SPDX of the installed package, attached
+#
+# Every action is pinned by commit SHA; Dependabot keeps the pins current.
+name: Release
 
 on:
   push:
@@ -8,23 +17,20 @@ permissions:
   contents: read
 
 jobs:
-  release:
-    name: Publish to PyPI
+  build:
+    name: Build, attest and sign
     runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: https://pypi.org/p/pain001-loader-xlsx
     permissions:
-      contents: write
-      id-token: write  # OIDC for PyPI trusted publishing
+      contents: read
+      id-token: write       # sigstore keyless signing
+      attestations: write   # SLSA build provenance
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - name: Set up Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: "3.12"
-          cache: "pip"
 
       - name: Verify tag matches package version
         run: |
@@ -51,8 +57,65 @@ jobs:
       - name: Twine check
         run: twine check dist/*
 
+      # SLSA Build Level 3 provenance for every distribution file, bound to
+      # the exact bytes just built and signed with the workflow's OIDC
+      # identity. Verify with: gh attestation verify <file> --repo pain001-loader-xlsx
+      - name: Generate SLSA build provenance attestation
+        uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+        with:
+          subject-path: "dist/*"
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+        with:
+          cosign-release: "v2.4.3"
+
+      # Keyless signatures (Fulcio + Rekor), kept beside the distributions
+      # rather than inside dist/ so the PyPI upload never sees them.
+      - name: Sign distributions (keyless)
+        run: |
+          mkdir -p signatures
+          for f in dist/*; do
+            cosign sign-blob --yes \
+              --output-signature "signatures/$(basename "$f").sig" \
+              --output-certificate "signatures/$(basename "$f").pem" \
+              "$f"
+          done
+
+      - name: Upload distributions
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: dist
+          path: dist/
+
+      - name: Upload signatures
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: signatures
+          path: signatures/
+
+  github-release:
+    name: GitHub release
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Download distributions
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: dist
+          path: dist/
+
+      - name: Download signatures
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: signatures
+          path: signatures/
+
       - name: Extract release notes
-        id: notes
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
           NOTE_PATH="releases/v${VERSION}.md"
@@ -60,13 +123,86 @@ jobs:
             echo "Release notes missing at $NOTE_PATH" >&2
             exit 1
           fi
-          echo "path=$NOTE_PATH" >> "$GITHUB_OUTPUT"
+          cp "$NOTE_PATH" release_notes.md
 
       - name: Create GitHub release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with:
-          body_path: ${{ steps.notes.outputs.path }}
-          files: dist/*
+          body_path: release_notes.md
+          files: |
+            dist/*
+            signatures/*
 
-      - name: Publish to PyPI via OIDC trusted publishing
-        uses: pypa/gh-action-pypi-publish@release/v1
+  pypi-publish:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/p/pain001-loader-xlsx
+    permissions:
+      id-token: write       # PyPI trusted publishing
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          name: dist
+          path: dist/
+
+      - name: Publish via OIDC trusted publishing
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # release/v1
+        with:
+          attestations: true
+          skip-existing: true
+
+  sbom:
+    name: SBOM (CycloneDX + SPDX)
+    needs: github-release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # attach the SBOMs to the release
+    env:
+      RELEASE_TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up Python
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      # The SBOM describes what a user installs, so it is generated from a
+      # clean environment holding exactly this package and its runtime
+      # dependencies, not from the repository tree.
+      - name: Install the package into a clean environment
+        run: |
+          python -m venv .sbom-env
+          .sbom-env/bin/pip install --upgrade pip
+          .sbom-env/bin/pip install .
+
+      - name: Generate SPDX SBOM (JSON)
+        uses: anchore/sbom-action@3ad7283483fc7af8ff2b4ea19663c2d5ca935e26 # v0.24.2
+        with:
+          path: .sbom-env
+          format: spdx-json
+          output-file: "pain001-loader-xlsx-${{ env.RELEASE_TAG }}.spdx.json"
+          upload-artifact: false
+          upload-release-assets: false
+
+      - name: Generate CycloneDX SBOM (JSON)
+        uses: anchore/sbom-action@3ad7283483fc7af8ff2b4ea19663c2d5ca935e26 # v0.24.2
+        with:
+          path: .sbom-env
+          format: cyclonedx-json
+          output-file: "pain001-loader-xlsx-${{ env.RELEASE_TAG }}.cdx.json"
+          upload-artifact: false
+          upload-release-assets: false
+
+      - name: Upload SBOMs to the release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release upload "${RELEASE_TAG}" \
+            "pain001-loader-xlsx-${RELEASE_TAG}.spdx.json" \
+            "pain001-loader-xlsx-${RELEASE_TAG}.cdx.json" \
+            --repo "${{ github.repository }}" --clobber
