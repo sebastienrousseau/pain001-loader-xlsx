@@ -8,8 +8,10 @@ Excel workbooks as input to ISO 20022 pain.001, as a loader plugin for the
 :caption: Contents
 
 readme
+POLICIES
+COMPARISON
+BENCHMARKS
 api
-benchmarks
 adr/index
 changelog
 ```

@@ -21,6 +21,11 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
+### Documentation
+
+- Generate the canonical README, check drift in CI, and replace stale feature,
+  tool-count and safety claims with current source-backed guidance.
+
 ### Fixed
 
 - Close workbook resources on malformed input and early iterator termination,
