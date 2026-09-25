@@ -1,4 +1,4 @@
-name: CI
+name: ci
 
 on:
   push:
@@ -40,6 +40,9 @@ jobs:
           # pyproject.toml, so a local `pytest` enforces exactly this.
           # Only the XML report is CI-specific.
           pytest tests/ --cov-report=xml -v
+
+      - name: Canonical README is current
+        run: python scripts/render_readme.py --check
 
       # Not a timing gate -- wall-clock is not comparable between
       # runners. This proves the benchmark still runs against the

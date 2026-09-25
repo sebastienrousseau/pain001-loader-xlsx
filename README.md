@@ -1,375 +1,216 @@
-<!-- SPDX-License-Identifier: Apache-2.0 OR MIT>
+<!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
 
 <p align="center">
-  <img
-    src="https://cloudcdn.pro/pain001/v1/logos/pain001.svg"
-    alt="pain001-loader-xlsx logo"
-    width="120"
-    height="120"
-  />
+  <img src="https://cloudcdn.pro/pain001/v1/logos/pain001.svg" alt="pain001-loader-xlsx logo" width="128" />
 </p>
 
 <h1 align="center">pain001-loader-xlsx</h1>
 
 <p align="center">
-  <b>Excel (.xlsx / .xlsm) loader plugin for the pain001 ISO 20022 payment library.</b>
+  Load Excel payment records through the pain001 plugin contract.
 </p>
 
 <p align="center">
-  <a href="https://pypi.org/project/pain001-loader-xlsx/"><img src="https://img.shields.io/pypi/v/pain001-loader-xlsx?style=for-the-badge" alt="PyPI version" /></a>
-  <a href="https://pypi.org/project/pain001-loader-xlsx/"><img src="https://img.shields.io/pypi/pyversions/pain001-loader-xlsx.svg?style=for-the-badge" alt="Python versions" /></a>
-  <a href="https://pypi.org/project/pain001-loader-xlsx/"><img src="https://img.shields.io/pypi/dm/pain001-loader-xlsx.svg?style=for-the-badge" alt="PyPI downloads" /></a>
-  <a href="https://github.com/sebastienrousseau/pain001-loader-xlsx/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/sebastienrousseau/pain001-loader-xlsx/ci.yml?branch=main&label=Tests&style=for-the-badge" alt="Tests" /></a>
-  <a href="https://github.com/sebastienrousseau/pain001-loader-xlsx/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/sebastienrousseau/pain001-loader-xlsx/ci.yml?branch=main&label=Coverage&style=for-the-badge" alt="Coverage" /></a>
-  <a href="#license"><img src="https://img.shields.io/pypi/l/pain001-loader-xlsx?style=for-the-badge" alt="License" /></a>
+  <a href="https://github.com/sebastienrousseau/pain001-loader-xlsx/actions"><img src="https://github.com/sebastienrousseau/pain001-loader-xlsx/workflows/ci/badge.svg?style=for-the-badge&logo=github" alt="Build" /></a>
+  <a href="https://pypi.org/project/pain001-loader-xlsx/"><img src="https://img.shields.io/pypi/v/pain001-loader-xlsx?style=for-the-badge&color=fc8d62&logo=python" alt="Registry" /></a>
+  <a href="docs/index.md"><img src="https://img.shields.io/badge/docs-source?style=for-the-badge&labelColor=555555&logo=readthedocs" alt="Docs" /></a>
+  <a href="https://scorecard.dev/viewer/?uri=github.com/sebastienrousseau/pain001-loader-xlsx"><img src="https://img.shields.io/ossf-scorecard/github.com/sebastienrousseau/pain001-loader-xlsx?style=for-the-badge&label=OpenSSF%20Scorecard&logo=openssf" alt="OpenSSF Scorecard" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg?style=for-the-badge" alt="License: Apache-2.0 OR MIT" /></a>
+  <a href="https://github.com/sebastienrousseau/pain001-loader-xlsx/blob/main/docs/POLICIES.md"><img src="https://img.shields.io/badge/Python-3.10%2B-93450a.svg?style=for-the-badge&logo=python" alt="Python 3.10 or newer" /></a>
 </p>
 
 ---
-
-> **Coming from a spreadsheet for the first time?** The one command and
-> what the loader protects you from are at
-> <https://pain001.com/excel-to-pain001/>.
 
 ## Contents
 
 **Getting started**
 
-- [What is pain001-loader-xlsx?](#what-is-pain001-loader-xlsx) — the problem it solves
-- [Install](#install) — PyPI, virtualenv
-- [Quick start](#quick-start) — one command from Excel to validated XML
+- [Install](#install) — PyPI and source
+- [Requirements](#requirements) — toolchain floor, platforms
+- [Quick Start](#quick-start) — use the installed companion
+
+**The pain001-loader-xlsx ecosystem**
+
+- [The pain001-loader-xlsx ecosystem](#the-pain001-loader-xlsx-ecosystem) — core and this companion
 
 **Library reference**
 
-- [How it works](#how-it-works) — the plugin contract, in one diagram
-- [Layout](#layout) — sheet selection, headers, the IBAN safety guard
-- [Using the loader from Python](#using-the-loader-from-python) — bypass pain001 entirely
-- [The pain001 suite](#the-pain001-suite) — core lib, MCP server, LSP server, this loader
+- [Capabilities at a glance](#capabilities-at-a-glance) — the current surface by theme
+- [Ecosystem comparison](#ecosystem-comparison) — short matrix; full table at [`docs/COMPARISON.md`](docs/COMPARISON.md)
+- [Benchmarks](#benchmarks) — headline numbers; full table at [`docs/BENCHMARKS.md`](docs/BENCHMARKS.md)
+- [Features](#features) — module-level capability list
+- [Configuration](#configuration) — core options
+- [Examples](#examples) — runnable example index
 
 **Operational**
 
-- [When not to use pain001-loader-xlsx](#when-not-to-use-pain001-loader-xlsx) — honest boundaries
-- [Development](#development) — gates, make targets
-- [Security](#security) — defensive posture
-- [Documentation](#documentation) — examples, guides
-- [Contributing](#contributing) — how to get changes in
-- [License](#license) — Apache-2.0
-
----
-
-## What is pain001-loader-xlsx?
-
-`pain001-loader-xlsx` is a third-party loader plugin for the
-[`pain001`](https://github.com/sebastienrousseau/pain001) ISO 20022
-payment library that teaches it to read payment data **directly from
-Excel `.xlsx` / `.xlsm` files** — no "Save As CSV" step.
-
-Drop-in: install both packages and `.xlsx` files dispatch
-automatically. Nothing else changes about how you use pain001.
-
-This package exists because `openpyxl` carries a non-trivial
-transitive dependency tree that operators who only need CSV / SQLite
-/ JSON would rightly object to as part of the core install. It is
-also the canonical worked example of pain001's v0.0.54+ plugin
-substrate — the same `AbstractLoader` Protocol any third-party
-loader uses.
-
-| Concern | How the loader handles it |
-| :--- | :--- |
-| Sheet selection | First sheet wins. Consolidate cross-sheet batches before invocation. |
-| Excel formulas | Cached value is read (`data_only=True`) — what you see in Excel is what pain001 gets. |
-| IBAN columns | **Refused** when the cell type is `General` (Excel silently strips leading zeros from numeric-looking strings). The error tells the user to re-type the column as `Text` and re-export. |
-| Date cells | Cached value is passed through; ISO 8601 strings work, Excel datetime objects depend on the underlying spreadsheet. |
-| Blank header cells | Stay in the dict under key `""`; downstream consumers can ignore or strip. |
-| Streaming | `load_streaming(path, chunk_size)` honours pain001's `--streaming` mode. |
-| Discovery | Registered via the standard `pain001.loaders` entry-point group; pain001 picks it up at process start. |
-| Cross-platform | Pure Python (`openpyxl`); works wherever pain001 works. |
+- [When not to use pain001-loader-xlsx](#when-not-to-use-pain001-loader-xlsx) — limitations
+- [Development](#development) — make targets, fuzzing, CI
+- [Security](#security) — guarantees and compliance
+- [Documentation](#documentation) — all reference docs
+- [Stability guarantees](#stability-guarantees) — SemVer axis, output stability, minimum toolchain discipline
+- [License](#license)
 
 ---
 
 ## Install
 
-| Channel | Command | Notes |
+### As a Python library
+
+```bash
+python -m pip install pain001-loader-xlsx
+```
+
+Published packages and development branches are distinct. Test unreleased
+changes on this companion's `feat/v0.0.71` branch against the matching core
+branch. No PyPI release or version bump is part of this work.
+
+---
+
+## Requirements
+
+Python 3.10 or newer. CI tests 3.10–3.14 on Linux. See
+[toolchain policy](docs/POLICIES.md); no distro-system-Python claim is made.
+
+---
+
+## Quick Start
+
+```bash
+pain001 plugins list --kind loader --json
+pain001 -t pain.001.001.03 -d payments.xlsx -o output
+```
+
+Supply `payments.xlsx` with core template column names; [examples/](examples/)
+creates synthetic workbooks. `-o` specifies an output directory, not a filename.
+
+---
+
+## The pain001-loader-xlsx ecosystem
+
+This independently installed companion delegates payment behavior to core.
+Coordinated versioning does not imply branch changes have been released.
+
+| Component | Purpose | Use case |
 | :--- | :--- | :--- |
-| PyPI | `pip install pain001 pain001-loader-xlsx` | Pulls in `openpyxl >= 3.1` + a recent `pain001` |
-| Source | `git clone https://github.com/sebastienrousseau/pain001-loader-xlsx && cd pain001-loader-xlsx && pip install -e ".[dev]"` | For development |
-
-Requires Python 3.10 or later. Works on macOS, Linux, and Windows.
-
-> **pain001 version requirement.** The plugin substrate
-> (`pain001.plugins`) that powers auto-discovery is part of
-> `pain001 >= 0.0.54`. The package metadata declares this dependency
-> explicitly; `pip install pain001-loader-xlsx` will pull in a
-> compatible `pain001` automatically.
-
-<details>
-<summary>Using an isolated virtual environment (recommended)</summary>
-
-```sh
-python -m venv venv
-source venv/bin/activate        # macOS/Linux
-venv\Scripts\activate           # Windows
-python -m pip install -U pain001 pain001-loader-xlsx
-```
-
-</details>
+| [pain001](https://github.com/sebastienrousseau/pain001) | Generation and validation | Shared contracts and XML engine |
 
 ---
 
-## Quick start
+## Capabilities at a glance
 
-Install both packages and feed pain001 an `.xlsx` file:
-
-```bash
-pip install pain001 pain001-loader-xlsx
-
-pain001 -t pain.001.001.03 -d payments.xlsx -o out.xml
-# -> writes a validated pain.001.001.03 XML alongside out.xml
-```
-
-Confirm pain001 sees the loader:
-
-```bash
-pain001 plugins list --kind loader --json | python -m json.tool
-# [
-#   { "kind": "loader", "name": "xlsx",
-#     "source": "pain001-loader-xlsx==0.0.54", ... },
-#   ...
-# ]
-```
-
-From Python:
-
-```python
-from pain001 import process_files
-
-# pain001's universal loader dispatches .xlsx through this plugin.
-output_path = process_files(
-    xml_message_type="pain001.001.001.03",
-    xml_template_file_path="template.xml",
-    xsd_schema_file_path="schema.xsd",
-    data_file_path="payments.xlsx",
-)
-print(output_path)  # -> "pain.001.001.03.xml" — validated and on disk
-```
+| Area | Capability | Status |
+| :--- | :--- | :--- |
+| Integration | Excel loading and streaming | Test-gated; new branch work is unreleased |
 
 ---
 
-## How it works
+## Ecosystem comparison
 
-```text
-+--------------------------+        +--------------------------+
-|  pain001 CLI / REST API  |        |  pain001-loader-xlsx     |
-|                          |        |                          |
-|  load_payment_data(path) |  -->   |  XlsxLoader.load(path)   |
-|                          |        |  -> LoaderResult         |
-+----------+---------------+        +----------+---------------+
-           |                                   |
-           | extension dispatch (.xlsx)         |
-           v                                   v
-    +------+-------+                    +------+-------+
-    |  pain001     |                    |  openpyxl    |
-    |  registry    |                    |  read_only   |
-    +--------------+                    +--------------+
-```
+This matrix describes the repository's scope, not an independently benchmarked
+comparison with competitors.
 
-pain001 v0.0.54 ships a formal plugin contract; this package
-exposes one Python class that satisfies it. Wired into pain001 via
-a single line in this package's `pyproject.toml`:
+| Project | Generate payment XML | Real settlement | Synthetic bank replies |
+| :--- | :---: | :---: | :---: |
+| **pain001-loader-xlsx** | Delegates to core | No | Not a bank service |
 
-```toml
-[project.entry-points."pain001.loaders"]
-xlsx = "pain001_loader_xlsx.loader:XlsxLoader"
-```
-
-That is all the integration there is. pain001 discovers the entry
-point at process start via `importlib.metadata.entry_points` and
-dispatches by extension. There is no global state, no central
-registry to update, nothing to subclass.
+See [`docs/COMPARISON.md`](docs/COMPARISON.md) for the evidence and complete matrix.
 
 ---
 
-## Layout
+## Benchmarks
 
-The first sheet of the workbook is read. Row 1 is the header (column
-names become dict keys); rows 2..N are the data records. Cells are
-read with `openpyxl`'s `data_only=True` so formulas resolve to their
-cached last-saved value — what the user sees in Excel is what
-pain001 gets.
+CI smoke-runs benchmarks. No hardware-independent throughput or latency promise
+is made; use the generated run report for measurements.
 
-### The IBAN guard, explained
+| Scenario | Result | Environment |
+| :--- | ---: | :--- |
+| Adapter operations | Run-specific | Python, hardware and dependency versions recorded per run |
 
-Excel's "General" cell format silently coerces a numeric-looking
-string like `0023012345...` into the integer `23012345...`,
-**dropping the leading zeros**. This is a known data-corruption
-mode in SAP / Oracle / Workday exports. To protect against it the
-loader refuses any row whose `debtor_account_IBAN` /
-`creditor_account_IBAN` / `charge_account_IBAN` cell is typed as a
-number, and tells the user to re-type the column as `Text`:
-
-```text
-workbook 'payments.xlsx' column 'debtor_account_IBAN' contains
-a numeric value (89370400440532013000) where an IBAN string is
-expected. Excel's 'General' cell format silently strips leading
-zeros from IBANs; re-type the column as 'Text' (in Excel: select
-the column, Format Cells -> Number -> Text) and re-export.
-```
-
-Caught early, the warning saves the user from wiring an IBAN with a
-missing digit to a bank.
+See [`docs/BENCHMARKS.md`](docs/BENCHMARKS.md) for methodology and full results.
 
 ---
 
-## Using the loader from Python
+## Features
 
-For Lambdas, ETL pipelines, or just inspecting an Excel file's
-records before generation, you can use `XlsxLoader` directly without
-going through pain001's dispatch:
+`XlsxLoader` implements `AbstractLoader` via the `pain001.loaders` entry point.
+It reads `.xlsx`/`.xlsm`, first sheet only, row 1 as headers. Read-only, data-only
+openpyxl access returns cached formula values, which can be stale or absent;
+no formulas or macros are evaluated.
 
-```python
-from pain001_loader_xlsx import XlsxLoader
-
-loader = XlsxLoader()
-result = loader.load("payments.xlsx")
-
-print(result.source_hint)  # -> "payments.xlsx"
-print(len(result.rows))  # -> 42
-print(result.rows[0]["id"])  # -> "MSG-0001"
-```
-
-Streaming variant for batches that don't fit in memory:
-
-```python
-for chunk in loader.load_streaming("big-payments.xlsx", chunk_size=1000):
-    process(chunk.rows)
-```
-
-The runnable version of this snippet (and a couple of others) lives
-in [`examples/`](examples/).
+Numeric IBAN cells are rejected with column-specific Text-format guidance.
+Text-valued IBAN cells are accepted even with General formatting. Excel date,
+time and datetime objects are rejected; use ISO-8601 text. Formatting a damaged
+identifier as Text cannot restore lost digits: recover the source value.
+Streaming yields bounded chunks and workbooks close on errors.
 
 ---
 
-## The pain001 suite
+## Configuration
 
-`pain001-loader-xlsx` is part of a set of independently installable
-packages built around the
-[`pain001`](https://github.com/sebastienrousseau/pain001) library —
-pick whichever ones your stack needs:
+Install alongside core for extension dispatch. `XlsxLoader.load(path)` returns
+`LoaderResult`; `load_streaming(path, chunk_size)` yields chunks. Refer to
+core's generated CLI help for generation flags.
 
-| Package | Role |
-| :--- | :--- |
-| [`pain001`](https://pypi.org/project/pain001/) | Core library + CLI + FastAPI REST API |
-| [`pain001-mcp`](https://pypi.org/project/pain001-mcp/) | Model Context Protocol server (for AI agents) |
-| [`pain001-lsp`](https://pypi.org/project/pain001-lsp/) | Language Server Protocol server (for editors) |
-| [`pain001-loader-xlsx`](https://pypi.org/project/pain001-loader-xlsx/) | **Excel loader plugin (this package)** |
+---
 
-```mermaid
-flowchart LR
-    A["payments.xlsx"] -->|extension dispatch| B["pain001-loader-xlsx"]
-    B -->|LoaderResult| C["pain001"]
-    C -->|render + XSD validate| D["ISO 20022 pain.001 XML"]
-```
+## Examples
+
+Run the self-checking scripts under [examples/](examples/). Tests cover valid
+and malformed inputs and integration with the core contract.
 
 ---
 
 ## When not to use pain001-loader-xlsx
 
-- **You can export CSV cleanly.** A `.csv` round-trip skips an
-  entire transitive dependency tree (`openpyxl` + its handful of
-  deps). pain001's built-in CSV loader is preferred when you have
-  the choice.
-- **You need multi-sheet support.** The first sheet wins; cross-sheet
-  payment batches need to be consolidated first.
-- **You need `.xls` (legacy binary format).** Out of scope.
-  Convert to `.xlsx` first, or use a different loader.
-- **Your data isn't payment-record-shaped.** This loader is a thin
-  pain001 input adapter, not a general-purpose Excel reader.
+No legacy `.xls`, multi-sheet merging, formula evaluation or identifier repair.
+Convert legacy files explicitly and preserve account values as text at source.
+This is a payment-record adapter, not a general spreadsheet engine.
 
 ---
 
 ## Development
 
-`pain001-loader-xlsx` uses standard Python tooling — no Poetry, just
-pip + pyproject.toml.
-
 ```bash
-git clone https://github.com/sebastienrousseau/pain001-loader-xlsx.git
-cd pain001-loader-xlsx
-python -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev]"
+python -m pip install -e '.[dev]'
+make check
+python scripts/render_readme.py --check
+python benches/bench_load_xlsx.py --quick
 ```
 
-Quality gates (kept in lockstep with CI):
-
-| Target | What it runs |
-| :--- | :--- |
-| `pytest` | Full test suite |
-| `pytest --cov=pain001_loader_xlsx --cov-branch --cov-fail-under=100` | **100% line + branch** coverage gate |
-| `interrogate -c pyproject.toml pain001_loader_xlsx` | **100% docstring** coverage gate |
-| `ruff check pain001_loader_xlsx tests` | Lint |
-| `ruff format --check pain001_loader_xlsx tests` | Format |
-| `mypy pain001_loader_xlsx` | Type check |
-
-Current state (v0.0.54): **12 tests passing, 100% line + branch
-coverage**, ruff + mypy clean, interrogate 100% docstring coverage.
+Coverage is gated at 100% line and branch. See [CONTRIBUTING.md](CONTRIBUTING.md)
+and [DEVELOPMENT.md](DEVELOPMENT.md). README is generated from the canonical
+layout and `docs/readme-values.json`; CI rejects drift.
 
 ---
 
 ## Security
 
-- **No filesystem writes.** The loader reads from an Excel file
-  path and yields plain dicts; it does not create, modify, or
-  delete files.
-- **No code execution.** `openpyxl`'s `read_only=True` mode does
-  not evaluate macros (Excel VBA is not executed). `data_only=True`
-  returns the cached last-saved value of formulas — no formula
-  engine runs.
-- **IBAN safety**: the loader refuses any row whose IBAN cells are
-  numeric (see [Layout](#layout)), avoiding the
-  "Excel silently dropped a leading zero" data-corruption mode.
-- **Dependencies** are pinned via `pyproject.toml` (`openpyxl >=
-  3.1, < 4`) and audited by GitHub's Dependabot.
+Read-only workbook loading does not run macros or evaluate formulas. Numeric
+IBAN and temporal-cell guards reject known spreadsheet coercions. Loading a
+workbook does not prove its accounts, amounts or bank rules are correct.
 
-To report a vulnerability, please use
-[GitHub private vulnerability reporting](https://github.com/sebastienrousseau/pain001-loader-xlsx/security)
-rather than a public issue.
+Report vulnerabilities according to [`SECURITY.md`](SECURITY.md).
 
 ---
 
 ## Documentation
 
-- **Runnable examples:** [`examples/`](https://github.com/sebastienrousseau/pain001-loader-xlsx/tree/main/examples)
-- **Release history:** [CHANGELOG.md](https://github.com/sebastienrousseau/pain001-loader-xlsx/blob/main/CHANGELOG.md)
-- **pain001 plugin contract:** [`docs/plugins.md` upstream](https://github.com/sebastienrousseau/pain001/blob/main/docs/plugins.md)
-- **openpyxl docs:** [openpyxl.readthedocs.io](https://openpyxl.readthedocs.io)
+[User manual](docs/index.md) · [API reference](docs/index.md) ·
+[Developer guide](DEVELOPMENT.md) ·
+[Family map](https://github.com/sebastienrousseau/pain001#the-pain001-ecosystem)
 
 ---
 
-## Contributing
+## Stability guarantees
 
-Contributions are welcome — see the
-[contributing guide](https://github.com/sebastienrousseau/pain001-loader-xlsx/blob/main/CONTRIBUTING.md)
-(or the upstream pain001 contributing guide if a per-repo one has
-not landed yet). Thanks to all the
-[contributors](https://github.com/sebastienrousseau/pain001-loader-xlsx/graphs/contributors)
-who have helped build `pain001-loader-xlsx`.
+Versions advance in coordinated `0.0.1` steps with core. The maintainer opens
+releases; this branch does not bump versions. Contract and output changes need
+compatibility review. No stronger platform or stability guarantee is implied.
 
 ---
 
 ## License
 
-Licensed under the [Apache License, Version 2.0](https://opensource.org/license/apache-2-0/).
-Built on [`openpyxl`](https://foss.heptapod.net/openpyxl/openpyxl)
-and the
-[`pain001`](https://github.com/sebastienrousseau/pain001) plugin
-contract.
-
-Any contribution submitted for inclusion shall be licensed as above,
-without additional terms.
-
----
-
-<p align="center">
-  <a href="https://pain001.com">pain001.com</a> ·
-  <a href="https://pypi.org/project/pain001-loader-xlsx/">PyPI</a> ·
-  <a href="https://github.com/sebastienrousseau/pain001-loader-xlsx">GitHub</a>
-</p>
+Dual-licensed under [Apache-2.0](LICENSE-APACHE) OR [MIT](LICENSE-MIT), at your
+option. See [LICENSE](LICENSE). Dependencies retain their own licences.

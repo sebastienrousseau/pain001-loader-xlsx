@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: Apache-2.0 OR MIT
 # Copyright (C) 2023-2026 Sebastien Rousseau. All rights reserved.
 
 """Excel (.xlsx / .xlsm) loader plugin for pain001.
@@ -157,6 +157,15 @@ class XlsxLoader:
                 row, or when an IBAN column is numeric.
         """
         workbook = openpyxl.load_workbook(path, read_only=True, data_only=True)
+        try:
+            yield from self._iter_workbook(workbook, path)
+        finally:
+            workbook.close()
+
+    def _iter_workbook(
+        self, workbook: Any, path: str
+    ) -> Iterable[dict[str, Any]]:
+        """Yield validated rows while the caller owns workbook cleanup."""
         if not workbook.sheetnames:
             raise ValueError(f"workbook {path!r} contains no sheets")
         worksheet = workbook[workbook.sheetnames[0]]
@@ -186,7 +195,6 @@ class XlsxLoader:
                     strict=False,
                 )
             )
-        workbook.close()
 
     def _guard_temporal_cells(
         self,

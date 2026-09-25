@@ -23,7 +23,7 @@ extensions = [
 myst_enable_extensions = ["colon_fence", "deflist"]
 myst_heading_anchors = 3
 source_suffix = {".rst": "restructuredtext", ".md": "markdown"}
-exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store", "readme-template.md"]
 # The README is included as a page: its repository-relative links,
 # diagram fences and heading levels are right for GitHub, not for Sphinx.
 suppress_warnings = [

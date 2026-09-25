@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+
 # Benchmarks
 
 `XlsxLoader` has two entry points and the difference between them is
@@ -13,7 +15,11 @@ python benches/bench_load_xlsx.py --quick   # what CI runs
 python benches/bench_load_xlsx.py --json    # machine-readable
 ```
 
-## Measured (chunk size 500)
+## Historical measurement (chunk size 500)
+
+These are retained historical results, not a current performance promise.
+The original record does not identify hardware and dependency versions;
+rerun the commands above for a reproducible measurement of your environment.
 
 | rows | eager ms | stream ms | eager MB | streamed MB | materialised MB |
 | ---: | ---: | ---: | ---: | ---: | ---: |

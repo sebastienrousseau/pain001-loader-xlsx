@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
@@ -16,6 +18,18 @@ consult. Versions advance in `0.0.1` steps along the `0.0.x` line;
 plugin built against a newer contract than its host raises rather than
 misbehaving — but it is a safety net, not the versioning rule. See
 `pain001.suite`, which a daily job checks against PyPI.
+
+## [Unreleased]
+
+### Documentation
+
+- Generate the canonical README, check drift in CI, and replace stale feature,
+  tool-count and safety claims with current source-backed guidance.
+
+### Fixed
+
+- Close workbook resources on malformed input and early iterator termination,
+  as well as after successful loading (pain001#180).
 
 ## [0.0.70] - 2026-09-13
 
