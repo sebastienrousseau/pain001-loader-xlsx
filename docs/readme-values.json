@@ -21,7 +21,7 @@
   "ECOSYSTEM_NAME": "Python",
   "ECOSYSTEM_MANIFEST_LANG": "bash",
   "INSTALL_LIBRARY_SNIPPET": "python -m pip install pain001-loader-xlsx",
-  "ADDITIONAL_INSTALL_METHODS": "Published packages and development branches are distinct. Test unreleased\nchanges on this companion's `feat/v0.0.71` branch against the matching core\nbranch. No PyPI release or version bump is part of this work.",
+  "ADDITIONAL_INSTALL_METHODS": "Published packages and development checkouts are distinct. Test unreleased\nchanges on this companion's development branches against the matching core\nbranch. Versions track core 0.0.x releases.",
   "REQUIREMENTS_CONTENT": "Python 3.10 or newer. CI tests 3.10–3.14 on Linux. See\n[toolchain policy](docs/POLICIES.md); no distro-system-Python claim is made.",
   "QUICK_START_LANG": "bash",
   "QUICK_START_SNIPPET": "pain001 plugins list --kind loader --json\npain001 -t pain.001.001.03 -d payments.xlsx -o output",
@@ -32,7 +32,7 @@
   "COMPONENT_USE_CASE": "Shared contracts and XML engine",
   "CAPABILITY_AREA": "Integration",
   "CAPABILITY_DESCRIPTION": "Excel loading and streaming",
-  "CAPABILITY_STATUS": "Test-gated; new branch work is unreleased",
+  "CAPABILITY_STATUS": "Test-gated companion package",
   "ECOSYSTEM_COMPARISON_SUMMARY": "This matrix describes the repository's scope, not an independently benchmarked\ncomparison with competitors.",
   "COMPARISON_DIMENSION_ONE": "Generate payment XML",
   "COMPARISON_DIMENSION_TWO": "Real settlement",
@@ -52,6 +52,6 @@
   "DEVELOPMENT_CONTENT": "Coverage is gated at 100% line and branch. See [CONTRIBUTING.md](CONTRIBUTING.md)\nand [DEVELOPMENT.md](DEVELOPMENT.md). README is generated from the canonical\nlayout and `docs/readme-values.json`; CI rejects drift.",
   "SECURITY_CONTENT": "Read-only workbook loading does not run macros or evaluate formulas. Numeric\nIBAN and temporal-cell guards reject known spreadsheet coercions. Loading a\nworkbook does not prove its accounts, amounts or bank rules are correct.",
   "DOCUMENTATION_INDEX": "[User manual](docs/index.md) · [API reference](docs/index.md) ·\n[Developer guide](DEVELOPMENT.md) ·\n[Family map](https://github.com/sebastienrousseau/pain001#the-pain001-ecosystem)",
-  "STABILITY_CONTENT": "Versions advance in coordinated `0.0.1` steps with core. The maintainer opens\nreleases; this branch does not bump versions. Contract and output changes need\ncompatibility review. No stronger platform or stability guarantee is implied.",
+  "STABILITY_CONTENT": "Versions advance in coordinated `0.0.1` steps with core. The maintainer opens\nreleases. Contract and output changes need\ncompatibility review. No stronger platform or stability guarantee is implied.",
   "LICENSE_CONTENT": "Dual-licensed under [Apache-2.0](LICENSE-APACHE) OR [MIT](LICENSE-MIT), at your\noption. See [LICENSE](LICENSE). Dependencies retain their own licences."
 }

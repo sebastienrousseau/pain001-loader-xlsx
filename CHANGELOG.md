@@ -21,6 +21,8 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
+## [0.0.71] - 2026-09-26
+
 ### Documentation
 
 - Generate the canonical README, check drift in CI, and replace stale feature,
