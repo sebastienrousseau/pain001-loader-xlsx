@@ -75,6 +75,14 @@ class TestNumberFormat:
             (100.0, "0.00", "100.00"),
             (100.456, "0.00", "100.46"),
             (1234.5, "#,##0.000", "1234.500"),
+            ("=cmd|' /C calc'!A0", None, "'=cmd|' /C calc'!A0"),
+            ("+12345", None, "'+12345"),
+            ("-12345", None, "'-12345"),
+            ("@SUM(A1:A10)", None, "'@SUM(A1:A10)"),
+            ("\t=calc", None, "'\t=calc"),
+            ("\r=calc", None, "'\r=calc"),
+            ("\n=calc", None, "'\n=calc"),
+            ("'=already_quoted", None, "'=already_quoted"),
         ],
     )
     def test_cells_render_as_the_displayed_text(
@@ -167,3 +175,22 @@ class TestTemporalCells:
         row = XlsxLoader().load(book).rows[0]
 
         assert row["payment_date"] == "2026-03-01"
+
+    def test_formula_injection_cells_are_sanitized(
+        self, tmp_path: pathlib.Path
+    ) -> None:
+        """Formula characters are escaped with a leading quote."""
+        workbook = Workbook()
+        sheet = workbook.active
+        sheet.append(["id", "remittance"])
+        sheet.append(["1", "@Acme Corp"])
+        cell = sheet.cell(row=3, column=2, value="=SUM(A1)")
+        cell.data_type = "s"
+        sheet.cell(row=3, column=1, value="2")
+        target = tmp_path / "book.xlsx"
+        workbook.save(target)
+
+        rows = XlsxLoader().load(str(target)).rows
+
+        assert rows[0]["remittance"] == "'@Acme Corp"
+        assert rows[1]["remittance"] == "'=SUM(A1)"
