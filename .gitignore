@@ -21,3 +21,4 @@ dist/
 mutants/
 # Sphinx build
 docs/_build/
+uv.lock

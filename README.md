@@ -61,9 +61,9 @@
 python -m pip install pain001-loader-xlsx
 ```
 
-Published packages and development branches are distinct. Test unreleased
-changes on this companion's `feat/v0.0.71` branch against the matching core
-branch. No PyPI release or version bump is part of this work.
+Published packages and development checkouts are distinct. Test unreleased
+changes on this companion's development branches against the matching core
+branch. Versions track core 0.0.x releases.
 
 ---
 
@@ -101,7 +101,7 @@ Coordinated versioning does not imply branch changes have been released.
 
 | Area | Capability | Status |
 | :--- | :--- | :--- |
-| Integration | Excel loading and streaming | Test-gated; new branch work is unreleased |
+| Integration | Excel loading and streaming | Test-gated companion package |
 
 ---
 
@@ -205,7 +205,7 @@ Report vulnerabilities according to [`SECURITY.md`](SECURITY.md).
 ## Stability guarantees
 
 Versions advance in coordinated `0.0.1` steps with core. The maintainer opens
-releases; this branch does not bump versions. Contract and output changes need
+releases. Contract and output changes need
 compatibility review. No stronger platform or stability guarantee is implied.
 
 ---
