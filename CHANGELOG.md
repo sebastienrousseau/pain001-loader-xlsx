@@ -21,6 +21,12 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
+### Changed
+
+- The README and the documentation index link
+  [What is pain.001?](https://pain001.com/pain-001/), an explainer of the
+  message's structure, versions and a schema-valid example.
+
 ## [0.0.71] - 2026-09-26
 
 ### Documentation
