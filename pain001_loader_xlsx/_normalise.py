@@ -44,6 +44,9 @@ _DECIMALS = re.compile(r"[0#]\.([0#]+)")
 #: Formats that carry no decimal information worth honouring.
 _UNFORMATTED = frozenset({"General", "@", ""})
 
+#: Characters that spreadsheet engines interpret as formula prefixes.
+_FORMULA_PREFIXES: tuple[str, ...] = ("=", "+", "-", "@", "\t", "\r", "\n")
+
 
 def decimals_in(number_format: str | None) -> int | None:
     """Return the decimal places pinned by ``number_format``, if any.
@@ -123,13 +126,20 @@ def to_text(value: Any, number_format: str | None) -> str:
         '100.00'
         >>> to_text(None, None)
         ''
+        >>> to_text("=cmd|' /C calc'!A0", None)
+        "'=cmd|' /C calc'!A0"
     """
     if value is None:
         return ""
     if isinstance(value, str):
-        return value
-    if isinstance(value, bool):
-        return "TRUE" if value else "FALSE"
-    if isinstance(value, (int, float)):
-        return _number_to_text(value, number_format)
-    return str(value)
+        text = value
+    elif isinstance(value, bool):
+        text = "TRUE" if value else "FALSE"
+    elif isinstance(value, (int, float)):
+        text = _number_to_text(value, number_format)
+    else:
+        text = str(value)
+
+    if text.startswith(_FORMULA_PREFIXES):
+        return f"'{text}"
+    return text

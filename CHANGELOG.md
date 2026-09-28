@@ -21,6 +21,27 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [0.0.72] - 2026-09-28
+
+### Security
+
+- Shield cells from CSV/Excel formula injection by disarming leading formula
+  triggers (`=`, `+`, `-`, `@`, `\t`, `\r`) in string fields when loading
+  workbooks.
+
+### Added
+
+- Add SLSA Level 3 provenance attestations to release artifacts.
+
+### Changed
+
+- Version aligned to `0.0.72` across all `pain001` suite packages.
+- The README and the documentation index link
+  [What is pain.001?](https://pain001.com/pain-001/), an explainer of the
+  message's structure, versions and a schema-valid example.
+
 ## [0.0.71] - 2026-09-26
 
 ### Documentation
