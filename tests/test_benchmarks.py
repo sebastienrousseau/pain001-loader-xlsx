@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+
 """Performance benchmarks for the XLSX loader.
 
 Three things, guarding three different failures.

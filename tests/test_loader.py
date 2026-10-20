@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: Apache-2.0 OR MIT
 # Copyright (C) 2023-2026 Sebastien Rousseau. All rights reserved.
 
 """Tests for the pain001-loader-xlsx plugin.

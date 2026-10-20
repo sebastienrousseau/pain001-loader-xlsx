@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+
 """Sphinx configuration for pain001-loader-xlsx documentation."""
 
 from __future__ import annotations

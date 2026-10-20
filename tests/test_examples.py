@@ -1,5 +1,5 @@
 # Copyright (C) 2023-2026 Sebastien Rousseau. All rights reserved.
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: Apache-2.0 OR MIT
 
 """Run every script in ``examples/`` and require a zero exit code.
 

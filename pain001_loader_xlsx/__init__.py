@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: Apache-2.0 OR MIT
 
 """Excel (.xlsx / .xlsm) loader plugin for the pain001 ISO 20022 library.
 

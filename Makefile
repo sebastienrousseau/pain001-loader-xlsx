@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0 OR MIT
 # pain001-loader-xlsx developer targets. CI runs the same commands.
 .DEFAULT_GOAL := help
 PYTHON ?= python
