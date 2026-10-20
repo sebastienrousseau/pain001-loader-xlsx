@@ -23,6 +23,15 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 Nothing yet.
 
+## [0.0.73] - 2026-10-20
+
+Suite release with `pain001` 0.0.73. No change to the loader's behaviour or its plugin contract (`pain001 >= 0.0.56, < 1`).
+
+### Changed
+
+- Every SPDX header states the declared `Apache-2.0 OR MIT` grant; the Makefile, `docs/conf.py` and `tests/test_benchmarks.py` gained the header they lacked.
+- GitHub Actions updated (7 actions).
+
 ## [0.0.72] - 2026-09-28
 
 ### Security
@@ -178,8 +187,6 @@ repository was missing.
 Coverage was already 100% and remains so. The gate was mutation-tested:
 adding a function no test calls drops coverage below the floor and fails
 the run, locally as well as in CI.
-
-## [Unreleased]
 
 ## [0.0.62] - 2026-08-21
 
