@@ -120,6 +120,7 @@ jobs:
           path: signatures/
 
       - name: Extract release notes
+        id: notes
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
           NOTE_PATH="releases/v${VERSION}.md"
@@ -128,10 +129,14 @@ jobs:
             exit 1
           fi
           cp "$NOTE_PATH" release_notes.md
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
 
+      # The title is "<project> <version>", never the bare tag: the
+      # family's release invariant (no leading v, project name first).
       - name: Create GitHub release
         uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with:
+          name: pain001-loader-xlsx ${{ steps.notes.outputs.version }}
           body_path: release_notes.md
           files: |
             dist/*
