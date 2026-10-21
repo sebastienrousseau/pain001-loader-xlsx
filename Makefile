@@ -2,11 +2,12 @@
 # pain001-loader-xlsx developer targets. CI runs the same commands.
 .DEFAULT_GOAL := help
 PYTHON ?= python
-# Mutation score floor for the loader and the normaliser: 85.2% (144 of
-# 169) on 2026-09-18, up from 68.6% before the guard-message tests. The
-# floor sits under it so one flaky mutant cannot block a release. Raise it
-# when the score rises; never lower it to make a red run green.
-MUTATION_FLOOR ?= 83
+# Mutation score floor for the loader and the normaliser: 88.2% (217 of
+# 246) on 2026-10-21, up from 85.2% (144 of 169) on 2026-09-18 and 68.6%
+# before the guard-message tests. The floor sits under it so one flaky
+# mutant cannot block a release. Raise it when the score rises; never
+# lower it to make a red run green.
+MUTATION_FLOOR ?= 86
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-14s %s\n", $$1, $$2}'

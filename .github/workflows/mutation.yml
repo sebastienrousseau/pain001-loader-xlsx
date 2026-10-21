@@ -42,7 +42,7 @@ jobs:
           mutmut export-cicd-stats
 
       - name: Gate on the mutation score
-        run: python scripts/mutation_gate.py --floor 83
+        run: python scripts/mutation_gate.py --floor 86
 
       - name: Upload mutation results
         if: always()
