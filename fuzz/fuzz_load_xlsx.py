@@ -10,8 +10,8 @@ XML cannot hold, and the carriage return, as ``_xHHHH_``, and a literal
 saved with openpyxl and read back through ``XlsxLoader.load``.
 
 The contract: when every cell's text is something XML 1.0 can carry,
-each one comes back as that exact text (with the leading quote the
-formula guard adds); when any is not, ``ValueError`` is raised. Any
+each one comes back as that exact text, a leading ``=``, ``+``, ``-``
+or ``@`` included; when any is not, ``ValueError`` is raised. Any
 other exception, or a value that differs, is a crash libFuzzer reports
 and minimises. ``tests/test_fuzz.py`` replays ``fuzz/corpus/`` through
 the same function without Atheris, so the corpus is a regression suite
@@ -35,7 +35,6 @@ import openpyxl
 
 ROWS, CELLS = "\x1d", "\x1e"
 MAX_ROWS, MAX_CELLS = 8, 6
-FORMULA_PREFIXES = ("=", "+", "-", "@", "\t", "\r", "\n")
 
 #: A complete escape, as the decoder reads it.
 _ESCAPE = re.compile(r"_x[0-9A-Fa-f]{4}_")
@@ -74,11 +73,6 @@ def sheet(data: bytes) -> list[list[str]]:
     return rows[:MAX_ROWS]
 
 
-def expected(text: str) -> str:
-    """What the loader must return for a cell holding ``text``."""
-    return f"'{text}" if text.startswith(FORMULA_PREFIXES) else text
-
-
 def _write(rows: list[list[str]]) -> str:
     workbook = openpyxl.Workbook()
     worksheet = workbook.active
@@ -114,9 +108,8 @@ def test_one_input(data: bytes) -> None:
     for row, record in zip(rows, loaded, strict=False):
         for c, text in enumerate(row):
             got = record.get(f"c{c}", "")
-            want = expected(text) if text else ""
-            if got != want:
-                raise AssertionError(f"cell c{c}: {got!r} != {want!r}")
+            if got != text:
+                raise AssertionError(f"cell c{c}: {got!r} != {text!r}")
 
 
 def main() -> None:  # pragma: no cover - needs Atheris (Linux x86_64)

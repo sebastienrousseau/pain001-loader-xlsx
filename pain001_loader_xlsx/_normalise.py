@@ -31,6 +31,11 @@ The rules, in order:
   otherwise with the shortest representation that round-trips.
 * ``datetime`` / ``date`` / ``time`` — rejected. See
   :mod:`pain001_loader_xlsx.errors`.
+
+No quote is added in front of a value starting with ``=``, ``+``,
+``-`` or ``@``. pain001 writes ISO 20022 XML, which nothing evaluates,
+and since 0.0.74 its CSV loader keeps such values raw too (pain001
+ADR-0008), so the same sheet renders the same XML either way.
 """
 
 from __future__ import annotations
@@ -55,9 +60,6 @@ _ESCAPE = re.compile(r"_x([0-9A-Fa-f]{4})_")
 #: What XML 1.0's ``Char`` production excludes: no payment message can
 #: carry these, so a cell holding one is refused rather than passed on.
 _NOT_XML = re.compile("[\x00-\x08\x0b\x0c\x0e-\x1f\ud800-\udfff\ufffe\uffff]")
-
-#: Characters that spreadsheet engines interpret as formula prefixes.
-_FORMULA_PREFIXES: tuple[str, ...] = ("=", "+", "-", "@", "\t", "\r", "\n")
 
 
 def decimals_in(number_format: str | None) -> int | None:
@@ -185,20 +187,15 @@ def to_text(value: Any, number_format: str | None) -> str:
         '100.00'
         >>> to_text(None, None)
         ''
-        >>> to_text("=cmd|' /C calc'!A0", None)
-        "'=cmd|' /C calc'!A0"
+        >>> to_text("+44 20 7946 0000", None)
+        '+44 20 7946 0000'
     """
     if value is None:
         return ""
     if isinstance(value, str):
-        text = decode_escapes(value)
-    elif isinstance(value, bool):
-        text = "TRUE" if value else "FALSE"
-    elif isinstance(value, (int, float)):
-        text = _number_to_text(value, number_format)
-    else:
-        text = str(value)
-
-    if text.startswith(_FORMULA_PREFIXES):
-        return f"'{text}"
-    return text
+        return decode_escapes(value)
+    if isinstance(value, bool):
+        return "TRUE" if value else "FALSE"
+    if isinstance(value, (int, float)):
+        return _number_to_text(value, number_format)
+    return str(value)

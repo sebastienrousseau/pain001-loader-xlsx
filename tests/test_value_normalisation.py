@@ -75,13 +75,14 @@ class TestNumberFormat:
             (100.0, "0.00", "100.00"),
             (100.456, "0.00", "100.46"),
             (1234.5, "#,##0.000", "1234.500"),
-            ("=cmd|' /C calc'!A0", None, "'=cmd|' /C calc'!A0"),
-            ("+12345", None, "'+12345"),
-            ("-12345", None, "'-12345"),
-            ("@SUM(A1:A10)", None, "'@SUM(A1:A10)"),
-            ("\t=calc", None, "'\t=calc"),
-            ("\r=calc", None, "'\r=calc"),
-            ("\n=calc", None, "'\n=calc"),
+            # Raw since 0.0.74, as pain001's CSV loader (its ADR-0008).
+            ("=cmd|' /C calc'!A0", None, "=cmd|' /C calc'!A0"),
+            ("+12345", None, "+12345"),
+            ("-12345", None, "-12345"),
+            ("@SUM(A1:A10)", None, "@SUM(A1:A10)"),
+            ("\t=calc", None, "\t=calc"),
+            ("\r=calc", None, "\r=calc"),
+            ("\n=calc", None, "\n=calc"),
             ("'=already_quoted", None, "'=already_quoted"),
         ],
     )
@@ -176,10 +177,10 @@ class TestTemporalCells:
 
         assert row["payment_date"] == "2026-03-01"
 
-    def test_formula_injection_cells_are_sanitized(
+    def test_formula_like_text_cells_stay_raw(
         self, tmp_path: pathlib.Path
     ) -> None:
-        """Formula characters are escaped with a leading quote."""
+        """No quote is added: the XML carries what the cell holds."""
         workbook = Workbook()
         sheet = workbook.active
         sheet.append(["id", "remittance"])
@@ -192,5 +193,5 @@ class TestTemporalCells:
 
         rows = XlsxLoader().load(str(target)).rows
 
-        assert rows[0]["remittance"] == "'@Acme Corp"
-        assert rows[1]["remittance"] == "'=SUM(A1)"
+        assert rows[0]["remittance"] == "@Acme Corp"
+        assert rows[1]["remittance"] == "=SUM(A1)"

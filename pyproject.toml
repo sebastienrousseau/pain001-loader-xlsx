@@ -132,4 +132,5 @@ pytest_add_cli_args_test_selection = [
     "tests/test_value_normalisation.py",
     "tests/test_guard_messages.py",
     "tests/test_ooxml_escapes.py",
+    "tests/test_raw_values.py",
 ]

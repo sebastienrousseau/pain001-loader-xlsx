@@ -33,6 +33,16 @@ Aligns `pain001-loader-xlsx` on the suite's `0.0.74`. The suite skips
 
 - Requires `pain001 >= 0.0.74, < 1`, the family's release; the floor
   was `0.0.56`.
+- **Behaviour change: the generated XML changes for cells starting
+  with `=`, `+`, `-` or `@`.** 0.0.72 prefixed them with a single
+  quote, as the core's CSV loader then did; pain001 0.0.74 keeps CSV
+  values raw by default (its ADR-0008), because XML is never evaluated
+  and the quote changed the payment (`-5` became `'-5`, `+44 20 7946
+  0000` gained a quote). This loader now keeps them raw too, numeric
+  cells included, so a sheet and its CSV export render the same XML.
+  The core's opt-in `sanitize_formula` is a `load_csv_data` keyword,
+  not part of the loader plugin interface, so there is no XLSX
+  equivalent.
 
 ### Fixed
 
