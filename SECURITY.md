@@ -47,6 +47,7 @@ thin input adapter.
 | **Excel macros (VBA)** | Not executed. `openpyxl` is opened with `read_only=True` — the workbook reader doesn't initialise the macro engine. |
 | **Excel formulas** | Cached value only (`data_only=True`). The formula engine never runs; we read what the user last saw + saved. |
 | **External references** | `openpyxl` does not follow external `[Workbook]Sheet!Cell` links in read-only mode. |
+| **Control characters** | OOXML's `_xHHHH_` escapes are decoded to the characters Excel shows. A cell holding a character XML 1.0 cannot carry (most C0 controls, lone surrogates, U+FFFE/U+FFFF) is **refused** with its column, row and code point, rather than passed on as escape text. |
 | **IBAN data corruption** | The loader **refuses** rows whose IBAN cells are numeric (Excel's "General" format silently strips leading zeros — a known SAP/Oracle/Workday export bug). Caught at load time, not at the bank. |
 | **Path traversal** | Defers entirely to pain001's `pain001.security.path_validator`. The loader receives an already-validated path. |
 | **Dependency CVEs** | `openpyxl >= 3.1, < 4` is the only direct dep. Pinned via PyPI and audited by GitHub Dependabot. |

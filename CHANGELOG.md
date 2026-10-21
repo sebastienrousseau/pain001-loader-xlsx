@@ -21,7 +21,19 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
-Nothing yet.
+### Fixed
+
+- Text cells now carry what Excel displays. OOXML stores a carriage
+  return as `_x000D_` and a literal `_xHHHH_` as `_x005F_xHHHH_`
+  (ECMA-376, ST_Xstring); openpyxl returns them undecoded, so a
+  multi-line cell reached the payment as `Line1_x000D_` LF `Line2`
+  instead of the CR LF its CSV export carries. The escapes are now
+  decoded, and the XML equals the equivalent CSV's again.
+- A text cell holding a character XML 1.0 cannot carry (most C0
+  controls, lone surrogates, U+FFFE, U+FFFF) is refused with its
+  column, row and code point. Before, the escape text itself, such as
+  `_x0007_`, went into the payment field. A workbook that loaded with
+  such a cell now raises `ValueError`.
 
 ## [0.0.72] - 2026-09-28
 
