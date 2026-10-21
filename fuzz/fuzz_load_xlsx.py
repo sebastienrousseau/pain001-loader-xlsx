@@ -26,6 +26,7 @@ Run (Linux x86_64, Python 3.12 to 3.14)::
 
 from __future__ import annotations
 
+import importlib
 import re
 import sys
 import tempfile
@@ -40,7 +41,7 @@ MAX_ROWS, MAX_CELLS = 8, 6
 _ESCAPE = re.compile(r"_x[0-9A-Fa-f]{4}_")
 #: What Excel escapes: XML-illegal characters, plus the carriage return.
 _STORED_ESCAPED = re.compile(
-    "[\x00-\x08\x0b\x0c\x0d\x0e-\x1f\ud800-\udfff\ufffe\uffff]"
+    r"[\x00-\x08\x0b\x0c\x0d\x0e-\x1f\ud800-\udfff\ufffe\uffff]"
 )
 _WORKDIR = Path(tempfile.mkdtemp(prefix="fuzz-xlsx-"))
 
@@ -119,7 +120,7 @@ def main() -> None:  # pragma: no cover - needs Atheris (Linux x86_64)
     # Only the package is instrumented: instrumenting openpyxl and the
     # pain001 core as well costs more time than the coverage it buys.
     with atheris.instrument_imports(include=["pain001_loader_xlsx"]):
-        import pain001_loader_xlsx.loader  # noqa: F401
+        importlib.import_module("pain001_loader_xlsx.loader")
     atheris.Setup(sys.argv, test_one_input)
     atheris.Fuzz()
 

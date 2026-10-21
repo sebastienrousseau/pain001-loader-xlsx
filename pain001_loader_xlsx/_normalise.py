@@ -59,7 +59,7 @@ _ESCAPE = re.compile(r"_x([0-9A-Fa-f]{4})_")
 
 #: What XML 1.0's ``Char`` production excludes: no payment message can
 #: carry these, so a cell holding one is refused rather than passed on.
-_NOT_XML = re.compile("[\x00-\x08\x0b\x0c\x0e-\x1f\ud800-\udfff\ufffe\uffff]")
+_NOT_XML = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\ud800-\udfff\ufffe\uffff]")
 
 
 def decimals_in(number_format: str | None) -> int | None:
