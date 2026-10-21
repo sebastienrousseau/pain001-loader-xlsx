@@ -11,12 +11,16 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/sebastienrousseau/pain001-loader-xlsx/actions"><img src="https://github.com/sebastienrousseau/pain001-loader-xlsx/workflows/ci/badge.svg?style=for-the-badge&logo=github" alt="Build" /></a>
-  <a href="https://pypi.org/project/pain001-loader-xlsx/"><img src="https://img.shields.io/pypi/v/pain001-loader-xlsx?style=for-the-badge&color=fc8d62&logo=python" alt="Registry" /></a>
-  <a href="docs/index.md"><img src="https://img.shields.io/badge/docs-source?style=for-the-badge&labelColor=555555&logo=readthedocs" alt="Docs" /></a>
-  <a href="https://scorecard.dev/viewer/?uri=github.com/sebastienrousseau/pain001-loader-xlsx"><img src="https://img.shields.io/ossf-scorecard/github.com/sebastienrousseau/pain001-loader-xlsx?style=for-the-badge&label=OpenSSF%20Scorecard&logo=openssf" alt="OpenSSF Scorecard" /></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg?style=for-the-badge" alt="License: Apache-2.0 OR MIT" /></a>
-  <a href="https://github.com/sebastienrousseau/pain001-loader-xlsx/blob/main/docs/POLICIES.md"><img src="https://img.shields.io/badge/Python-3.10%2B-93450a.svg?style=for-the-badge&logo=python" alt="Python 3.10 or newer" /></a>
+  <a href="https://github.com/sebastienrousseau/pain001-loader-xlsx/actions"><img src="https://img.shields.io/github/actions/workflow/status/sebastienrousseau/pain001-loader-xlsx/ci.yml?style=for-the-badge&logo=github" alt="Build" height="28" /></a>
+  <a href="https://pypi.org/project/pain001-loader-xlsx/"><img src="https://img.shields.io/pypi/v/pain001-loader-xlsx?style=for-the-badge&color=fc8d62&logo=python" alt="Registry" height="28" /></a>
+  <a href="docs/index.md"><img src="https://img.shields.io/badge/docs-source-blue?style=for-the-badge&labelColor=555555&logo=readthedocs" alt="Docs" height="28" /></a>
+  <a href="https://scorecard.dev/viewer/?uri=github.com/sebastienrousseau/pain001-loader-xlsx"><img src="https://img.shields.io/ossf-scorecard/github.com/sebastienrousseau/pain001-loader-xlsx?style=for-the-badge&label=OpenSSF%20Scorecard&logo=openssf" alt="OpenSSF Scorecard" height="28" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg?style=for-the-badge" alt="License: Apache-2.0 OR MIT" height="28" /></a>
+  <a href="https://github.com/sebastienrousseau/pain001-loader-xlsx/blob/main/docs/POLICIES.md"><img src="https://img.shields.io/badge/Python-3.10%2B-93450a.svg?style=for-the-badge&logo=python" alt="Python 3.10 or newer" height="28" /></a>
+</p>
+
+<p align="center">
+  <img src=".github/demo.gif" alt="pain001-loader-xlsx demo: examples/01_load_xlsx.py loads two payment rows from a workbook it writes, then examples/02_iban_safety_guard.py shows a numeric IBAN cell refused with Excel's Text-format guidance" width="100%" />
 </p>
 
 ---
@@ -60,6 +64,10 @@
 ```bash
 python -m pip install pain001-loader-xlsx
 ```
+
+> **Latest release: v0.0.74**: text cells carry what Excel displays
+> (OOXML `_xHHHH_` escapes are decoded) and a cell XML cannot carry is
+> refused; requires `pain001 >= 0.0.74`. See [CHANGELOG.md](CHANGELOG.md).
 
 Published packages and development checkouts are distinct. Test unreleased
 changes on this companion's development branches against the matching core
@@ -142,7 +150,10 @@ Numeric IBAN cells are rejected with column-specific Text-format guidance.
 Text-valued IBAN cells are accepted even with General formatting. Excel date,
 time and datetime objects are rejected; use ISO-8601 text. Formatting a damaged
 identifier as Text cannot restore lost digits: recover the source value.
-Streaming yields bounded chunks and workbooks close on errors.
+Text cells carry what Excel displays: OOXML `_xHHHH_` escapes such as
+`_x000D_` are decoded, and a character XML cannot carry is refused with its
+column, row and code point. Streaming yields bounded chunks and workbooks
+close on errors.
 
 ---
 
@@ -172,14 +183,17 @@ This is a payment-record adapter, not a general spreadsheet engine.
 ## Development
 
 ```bash
-python -m pip install -e '.[dev]'
+make install
 make check
 python scripts/render_readme.py --check
 python benches/bench_load_xlsx.py --quick
 ```
 
-Coverage is gated at 100% line and branch. See [CONTRIBUTING.md](CONTRIBUTING.md)
-and [DEVELOPMENT.md](DEVELOPMENT.md). README is generated from the canonical
+Coverage is gated at 100% line and branch. CI installs only hash-pinned
+`requirements/*.txt` (`make pip-compile` regenerates them), audits each with
+`pip-audit`, holds every function to the complexity ceilings, and fuzzes text
+cells with Atheris. See [CONTRIBUTING.md](CONTRIBUTING.md) and
+[DEVELOPMENT.md](DEVELOPMENT.md). README is generated from the canonical
 layout and `docs/readme-values.json`; CI rejects drift.
 
 ---
@@ -187,7 +201,8 @@ layout and `docs/readme-values.json`; CI rejects drift.
 ## Security
 
 Read-only workbook loading does not run macros or evaluate formulas. Numeric
-IBAN and temporal-cell guards reject known spreadsheet coercions. Loading a
+IBAN, temporal-cell and control-character guards reject known spreadsheet
+coercions. Loading a
 workbook does not prove its accounts, amounts or bank rules are correct.
 
 Report vulnerabilities according to [`SECURITY.md`](SECURITY.md).

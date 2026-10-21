@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# Mutation testing (mutation.yml): the test tree plus mutmut 3.
+# Regenerate with: make pip-compile
+-r test.in
+mutmut>=3.7,<4

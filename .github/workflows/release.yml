@@ -26,6 +26,8 @@ jobs:
       attestations: write   # SLSA build provenance
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -46,16 +48,16 @@ jobs:
             exit 1
           fi
 
-      - name: Install build tooling
-        run: |
-          python -m pip install --upgrade pip
-          pip install build twine
+      # Hash-pinned, hatchling included: --no-isolation builds with the
+      # pinned backend instead of fetching one at build time.
+      - name: Install build tooling (hash-pinned)
+        run: pip install --require-hashes -r requirements/build.txt
 
       - name: Build sdist + wheel
-        run: python -m build
+        run: python -m build --no-isolation
 
       - name: Twine check
-        run: twine check dist/*
+        run: twine check --strict dist/*
 
       # SLSA Build Level 3 provenance for every distribution file, bound to
       # the exact bytes just built and signed with the workflow's OIDC
@@ -102,6 +104,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Download distributions
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
@@ -116,6 +120,7 @@ jobs:
           path: signatures/
 
       - name: Extract release notes
+        id: notes
         run: |
           VERSION="${GITHUB_REF_NAME#v}"
           NOTE_PATH="releases/v${VERSION}.md"
@@ -124,10 +129,14 @@ jobs:
             exit 1
           fi
           cp "$NOTE_PATH" release_notes.md
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
 
+      # The title is "<project> <version>", never the bare tag: the
+      # family's release invariant (no leading v, project name first).
       - name: Create GitHub release
         uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
         with:
+          name: pain001-loader-xlsx ${{ steps.notes.outputs.version }}
           body_path: release_notes.md
           files: |
             dist/*
@@ -165,6 +174,8 @@ jobs:
       RELEASE_TAG: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
@@ -174,11 +185,19 @@ jobs:
       # The SBOM describes what a user installs, so it is generated from a
       # clean environment holding exactly this package and its runtime
       # dependencies, not from the repository tree.
+      # The runtime tree hash-pinned, then the released wheel itself with
+      # --no-deps, so the SBOM lists the exact distribution users install.
+      - name: Download distributions
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+        with:
+          name: dist
+          path: dist/
+
       - name: Install the package into a clean environment
         run: |
           python -m venv .sbom-env
-          .sbom-env/bin/pip install --upgrade pip
-          .sbom-env/bin/pip install .
+          .sbom-env/bin/pip install --require-hashes -r requirements/runtime.txt
+          .sbom-env/bin/pip install --no-deps dist/*.whl
 
       - name: Generate SPDX SBOM (JSON)
         uses: anchore/sbom-action@66cbf4bc1f1c0d2edc94016e65bc221b6bb0ad6c # v0.24.3

@@ -1,6 +1,6 @@
 # CodeQL, same shape as the pain001 core's workflow, minus the core's
 # custom model pack (this repository has no path-validation sanitizer to
-# register). Dependencies are installed so CodeQL resolves imports.
+# register). The runtime tree is installed so CodeQL resolves imports.
 name: 🔍 CodeQL Security Scanning
 
 on:
@@ -30,16 +30,20 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - name: Set up Python
         uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
         with:
           python-version: '3.12'
 
-      - name: Install the package and its development extras
+      # Hash-pinned (OpenSSF Scorecard Pinned-Dependencies): the runtime
+      # tree, then the package with --no-deps on top.
+      - name: Install the package and its runtime tree (hash-pinned)
         run: |
-          python -m pip install --upgrade pip
-          pip install -e ".[dev]"
+          pip install --require-hashes -r requirements/runtime.txt
+          pip install --no-deps -e .
 
       - name: Initialize CodeQL
         uses: github/codeql-action/init@24c54180a607b1449ed407dd24f251e4e9147c8d # v4

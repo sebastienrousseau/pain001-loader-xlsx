@@ -1,0 +1,4 @@
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# Fuzz inputs are bytes: a carriage return or an invalid UTF-8 byte in
+# them is the point, so git must never normalise them.
+fuzz/corpus/** -text

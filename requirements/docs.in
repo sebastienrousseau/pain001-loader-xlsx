@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# Sphinx toolchain for docs.yml; autodoc imports the package, so the
+# runtime tree is here and the package installs with --no-deps on top.
+# Regenerate with: make pip-compile
+-r runtime.in
+sphinx>=7
+furo>=2024
+myst-parser>=3
+# GHSA-6q48-6c7w-9gw2: certifi before 2026.10.19 bundles emSign roots
+# with compromised intermediates; no affected release may resolve.
+certifi>=2026.10.19

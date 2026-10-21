@@ -1,6 +1,6 @@
 [project]
 name = "pain001-loader-xlsx"
-version = "0.0.72"
+version = "0.0.74"
 description = "Read flat-record payment data from Excel .xlsx files for pain001."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -10,7 +10,6 @@ keywords = ["iso20022", "pain001", "sepa", "xlsx", "excel", "plugin"]
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Intended Audience :: Financial and Insurance Industry",
-    "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
@@ -22,7 +21,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "pain001 >= 0.0.56, < 1",
+    "pain001 >= 0.0.74, < 1",
     "openpyxl >= 3.1, < 4",
 ]
 
@@ -115,6 +114,12 @@ ignore_missing_imports = true
 module = "pain001.*"
 ignore_missing_imports = true
 
+# radon ships no type information (no py.typed, no stubs). It is used only
+# by scripts/check_complexity.py, whose own code is still checked strictly.
+[[tool.mypy.overrides]]
+module = "radon.*"
+ignore_missing_imports = true
+
 [tool.mutmut]
 # Mutation testing (mutmut 3) over the loader and the normaliser. The benchmarks and
 # the suite conformance file are excluded from the selection because
@@ -126,4 +131,6 @@ pytest_add_cli_args_test_selection = [
     "tests/test_loader.py",
     "tests/test_value_normalisation.py",
     "tests/test_guard_messages.py",
+    "tests/test_ooxml_escapes.py",
+    "tests/test_raw_values.py",
 ]

@@ -43,7 +43,7 @@ from pain001.plugins import (
     PluginMeta,
 )
 
-from pain001_loader_xlsx._normalise import to_text
+from pain001_loader_xlsx._normalise import decode_escapes, not_xml, to_text
 
 # Columns whose values are bank identifiers and must never be read
 # from an Excel "General" cell (Excel strips leading zeros from
@@ -188,6 +188,7 @@ class XlsxLoader:
         for row_number, row in enumerate(rows_iter, start=2):
             self._guard_iban_cells(row, iban_columns, headers, path)
             self._guard_temporal_cells(row, headers, path, row_number)
+            self._guard_text_cells(row, headers, path, row_number)
             yield dict(
                 zip(
                     headers,
@@ -237,6 +238,45 @@ class XlsxLoader:
                     "guess at. Re-type the column as 'Text' (in Excel: "
                     "select the column, Format Cells -> Number -> Text) "
                     "and write dates as ISO-8601 (YYYY-MM-DD)."
+                )
+
+    def _guard_text_cells(
+        self,
+        row: tuple[Any, ...],
+        headers: list[Any],
+        path: str,
+        row_number: int,
+    ) -> None:
+        """Raise when a text cell holds a character XML cannot carry.
+
+        OOXML stores control characters as ``_xHHHH_`` escapes, which
+        :func:`~pain001_loader_xlsx._normalise.to_text` decodes. Most
+        C0 controls, lone surrogates and U+FFFE/U+FFFF are outside XML
+        1.0's character set, so no pain.001 message can include them;
+        they usually arrive pasted in invisibly. Passing the escape text
+        on instead would put ``_x0007_`` into a payment field.
+
+        Args:
+            row: The current data row's cells.
+            headers: The header-row values (for the error message).
+            path: The source file path (for the error message).
+            row_number: One-based worksheet row.
+
+        Raises:
+            ValueError: When any text cell holds such a character.
+        """
+        for idx, cell in enumerate(row):
+            if not isinstance(cell.value, str):
+                continue
+            bad = not_xml(decode_escapes(cell.value))
+            if bad is not None:
+                column_name = headers[idx] if idx < len(headers) else idx
+                raise ValueError(
+                    f"workbook {path!r} column {column_name!r} row "
+                    f"{row_number} holds the character U+{ord(bad):04X}, "
+                    "which XML cannot carry, so no payment message can "
+                    "include it. It is usually pasted in invisibly: retype "
+                    "the cell and re-save."
                 )
 
     def _guard_iban_cells(
