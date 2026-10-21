@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# Lint, format and type-check tooling for the CI "lint" job. The runtime
+# tree is included so mypy --strict sees openpyxl and pain001.
+# Regenerate with: make pip-compile
+-r runtime.in
+ruff>=0.6
+mypy>=1.11

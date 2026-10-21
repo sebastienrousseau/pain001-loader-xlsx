@@ -11,8 +11,9 @@ MUTATION_FLOOR ?= 83
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  %-14s %s\n", $$1, $$2}'
 
-install: ## Install the package with its development extras
-	$(PYTHON) -m pip install -e ".[dev]"
+install: ## Install the hash-pinned test tree, then the package (lint: requirements/lint.txt)
+	$(PYTHON) -m pip install --require-hashes -r requirements/test.txt
+	$(PYTHON) -m pip install --no-deps -e .
 
 test: ## Run tests with the 100% line+branch coverage gate
 	$(PYTHON) -m pytest tests/ --cov=pain001_loader_xlsx --cov-branch --cov-report=term-missing --cov-fail-under=100 -q
@@ -36,6 +37,21 @@ mutate: ## Mutation testing (mutmut 3, config in pyproject)
 	$(PYTHON) -m mutmut export-cicd-stats
 	$(PYTHON) scripts/mutation_gate.py --floor $(MUTATION_FLOOR)
 
+audit: ## pip-audit every hash-pinned requirements file (needs requirements/audit.txt)
+	@for f in requirements/*.txt; do \
+		echo "--- $$f"; \
+		pip-audit --progress-spinner off --require-hashes --disable-pip -r "$$f" || exit 1; \
+	done
+
+pip-compile: ## Regenerate hash-pinned requirements/*.txt from requirements/*.in
+	@command -v uv >/dev/null || { echo "uv is required: https://docs.astral.sh/uv/"; exit 1; }
+	@for f in requirements/*.in; do \
+		[ "$$f" = requirements/fuzz.in ] && continue; \
+		echo "compiling $$f"; \
+		uv pip compile --quiet --generate-hashes --universal \
+			--python-version 3.10 "$$f" -o "$${f%.in}.txt"; \
+	done
+
 check: lint type-check test doc-coverage ## Run all gates
 
-.PHONY: help install test lint type-check doc-coverage docs mutate check
+.PHONY: help install test lint type-check doc-coverage docs mutate audit pip-compile check

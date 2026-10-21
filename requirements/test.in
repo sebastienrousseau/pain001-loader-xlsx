@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# Runtime + test dependencies for the CI "test" job, hash-pinned in
+# test.txt so every pip install in .github/workflows is pinned (OpenSSF
+# Scorecard Pinned-Dependencies). The package itself installs with
+# "pip install --no-deps -e ." on top, which registers the pain001.loaders
+# entry point the integration tests discover.
+# Regenerate with: make pip-compile
+-r runtime.in
+pytest>=8
+pytest-cov>=5
+pytest-benchmark>=5
+interrogate>=1.7
+# scripts/check_suite_consistency.py reads pyproject.toml on 3.10.
+tomli>=2 ; python_version < "3.11"

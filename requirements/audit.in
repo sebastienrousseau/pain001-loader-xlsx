@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# Dependency advisory audit for the CI "audit" job: pip-audit over every
+# hash-pinned requirements/*.txt.
+# Regenerate with: make pip-compile
+pip-audit
+# GHSA-6q48-6c7w-9gw2: certifi before 2026.10.19 bundles emSign roots
+# with compromised intermediates; no affected release may resolve.
+certifi>=2026.10.19
