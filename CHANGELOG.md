@@ -29,6 +29,11 @@ Aligns `pain001-loader-xlsx` on the suite's `0.0.74`. The suite skips
 `0.0.73`, which only `pain001-mcp` published; this package goes from
 `0.0.72` to `0.0.74`.
 
+### Changed
+
+- Requires `pain001 >= 0.0.74, < 1`, the family's release; the floor
+  was `0.0.56`.
+
 ### Fixed
 
 - Text cells now carry what Excel displays. OOXML stores a carriage

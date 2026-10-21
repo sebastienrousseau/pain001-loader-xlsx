@@ -4,5 +4,5 @@
 # CodeQL install it, then this package with --no-deps on top, so both see
 # exactly what a user's install resolves today.
 # Regenerate with: make pip-compile
-pain001>=0.0.56,<1
+pain001>=0.0.74,<1
 openpyxl>=3.1,<4

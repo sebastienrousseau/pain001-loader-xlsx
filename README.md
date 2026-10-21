@@ -67,7 +67,7 @@ python -m pip install pain001-loader-xlsx
 
 > **Latest release: v0.0.74**: text cells carry what Excel displays
 > (OOXML `_xHHHH_` escapes are decoded) and a cell XML cannot carry is
-> refused. See [CHANGELOG.md](CHANGELOG.md).
+> refused; requires `pain001 >= 0.0.74`. See [CHANGELOG.md](CHANGELOG.md).
 
 Published packages and development checkouts are distinct. Test unreleased
 changes on this companion's development branches against the matching core
