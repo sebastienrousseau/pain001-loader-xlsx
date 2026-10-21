@@ -27,7 +27,7 @@ type-check: ## mypy --strict over the package and the gate scripts
 
 complexity: ## Complexity ceilings against complexity-baseline.json (needs requirements/complexity.txt)
 	$(PYTHON) scripts/check_complexity.py
-	complexipy pain001_loader_xlsx scripts benches examples --max-complexity-allowed 15 --quiet
+	complexipy pain001_loader_xlsx scripts benches examples fuzz --max-complexity-allowed 15 --quiet
 
 doc-coverage: ## 100% docstring coverage
 	$(PYTHON) -m interrogate --fail-under 100 pain001_loader_xlsx
@@ -55,7 +55,13 @@ pip-compile: ## Regenerate hash-pinned requirements/*.txt from requirements/*.in
 		uv pip compile --quiet --generate-hashes --universal \
 			--python-version 3.10 "$$f" -o "$${f%.in}.txt"; \
 	done
+	@echo "compiling requirements/fuzz.in (Linux x86_64, Atheris wheels only)"
+	@uv pip compile --quiet --generate-hashes --python-platform x86_64-manylinux_2_17 \
+		--python-version 3.12 requirements/fuzz.in -o requirements/fuzz.txt
+
+fuzz: ## Atheris for FUZZ_SECONDS (default 60); Linux x86_64, needs requirements/fuzz.txt
+	$(PYTHON) fuzz/fuzz_load_xlsx.py fuzz/corpus -max_total_time=$(or $(FUZZ_SECONDS),60)
 
 check: lint type-check complexity test doc-coverage ## Run all gates
 
-.PHONY: help install test lint type-check complexity doc-coverage docs mutate audit pip-compile check
+.PHONY: help install test lint type-check complexity doc-coverage docs mutate audit pip-compile fuzz check
