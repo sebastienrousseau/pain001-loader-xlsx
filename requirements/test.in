@@ -13,3 +13,5 @@ pytest-benchmark>=5
 interrogate>=1.7
 # scripts/check_suite_consistency.py reads pyproject.toml on 3.10.
 tomli>=2 ; python_version < "3.11"
+# tests/test_check_complexity.py imports the gate, so its tools are here too.
+-r complexity.in

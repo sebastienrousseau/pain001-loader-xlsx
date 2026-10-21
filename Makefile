@@ -22,8 +22,12 @@ lint: ## Ruff check and format check
 	$(PYTHON) -m ruff check .
 	$(PYTHON) -m ruff format --check .
 
-type-check: ## mypy
-	$(PYTHON) -m mypy pain001_loader_xlsx
+type-check: ## mypy --strict over the package and the gate scripts
+	$(PYTHON) -m mypy pain001_loader_xlsx scripts/check_complexity.py scripts/check_suite_consistency.py
+
+complexity: ## Complexity ceilings against complexity-baseline.json (needs requirements/complexity.txt)
+	$(PYTHON) scripts/check_complexity.py
+	complexipy pain001_loader_xlsx scripts benches examples --max-complexity-allowed 15 --quiet
 
 doc-coverage: ## 100% docstring coverage
 	$(PYTHON) -m interrogate --fail-under 100 pain001_loader_xlsx
@@ -52,6 +56,6 @@ pip-compile: ## Regenerate hash-pinned requirements/*.txt from requirements/*.in
 			--python-version 3.10 "$$f" -o "$${f%.in}.txt"; \
 	done
 
-check: lint type-check test doc-coverage ## Run all gates
+check: lint type-check complexity test doc-coverage ## Run all gates
 
-.PHONY: help install test lint type-check doc-coverage docs mutate audit pip-compile check
+.PHONY: help install test lint type-check complexity doc-coverage docs mutate audit pip-compile check
