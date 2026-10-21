@@ -56,8 +56,8 @@ def main() -> None:
             print(f"  - {row['id']}  {row['amount']}  {iban}")
         # -> source_hint: /tmp/.../payments.xlsx
         # -> rows loaded: 2
-        # -> MSG-0001  100.00  DE89370400440532013000
-        # -> MSG-0002  250.50  FR1420041010050500013M02606
+        # -> MSG-0001  100  DE89370400440532013000
+        # -> MSG-0002  250.5  FR1420041010050500013M02606
     print("xlsx loader example completed.")
 
 

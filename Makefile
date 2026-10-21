@@ -62,6 +62,9 @@ pip-compile: ## Regenerate hash-pinned requirements/*.txt from requirements/*.in
 fuzz: ## Atheris for FUZZ_SECONDS (default 60); Linux x86_64, needs requirements/fuzz.txt
 	$(PYTHON) fuzz/fuzz_load_xlsx.py fuzz/corpus -max_total_time=$(or $(FUZZ_SECONDS),60)
 
+demo: ## Re-render .github/demo.gif from .github/demo.tape (needs vhs)
+	vhs .github/demo.tape
+
 check: lint type-check complexity test doc-coverage ## Run all gates
 
-.PHONY: help install test lint type-check complexity doc-coverage docs mutate audit pip-compile fuzz check
+.PHONY: help install test lint type-check complexity doc-coverage docs mutate audit pip-compile fuzz demo check
