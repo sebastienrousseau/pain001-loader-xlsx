@@ -21,6 +21,14 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [0.0.74] - 2026-10-21
+
+Aligns `pain001-loader-xlsx` on the suite's `0.0.74`. The suite skips
+`0.0.73`, which only `pain001-mcp` published; this package goes from
+`0.0.72` to `0.0.74`.
+
 ### Fixed
 
 - Text cells now carry what Excel displays. OOXML stores a carriage
@@ -34,6 +42,31 @@ misbehaving — but it is a safety net, not the versioning rule. See
   column, row and code point. Before, the escape text itself, such as
   `_x0007_`, went into the payment field. A workbook that loaded with
   such a cell now raises `ValueError`.
+- `scripts/check_suite_consistency.py` compared the tree with the
+  pain001 core's PyPI release; it now compares it with this package's
+  own, so a bump that was never released is caught in the window after
+  the core ships.
+- GitHub releases are titled `pain001-loader-xlsx <version>` by the
+  release workflow, not with the bare tag.
+- Wheel metadata no longer carries an Apache-only licence classifier;
+  `License-Expression: Apache-2.0 OR MIT` states the licence.
+
+### Security
+
+- Every `pip install` in CI installs a hash-pinned
+  `requirements/*.txt` (OpenSSF Scorecard Pinned-Dependencies), and a
+  new CI job runs `pip-audit` on each. The audit, build and docs
+  trees require `certifi >= 2026.10.19` (GHSA-6q48-6c7w-9gw2).
+- Text cells are fuzzed with Atheris on every change, from a committed
+  corpus that `tests/test_fuzz.py` also replays.
+
+### Added
+
+- A complexity gate (`scripts/check_complexity.py`, cyclomatic 10,
+  cognitive 15, Halstead difficulty 30, 60 lines per function) against
+  an empty, CI-enforced baseline.
+- `make audit`, `make pip-compile`, `make complexity`, `make fuzz` and
+  `make demo`; a VHS demo in the README.
 
 ## [0.0.72] - 2026-09-28
 
