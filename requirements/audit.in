@@ -7,3 +7,8 @@ pip-audit
 # GHSA-6q48-6c7w-9gw2: certifi before 2026.10.19 bundles emSign roots
 # with compromised intermediates; no affected release may resolve.
 certifi>=2026.10.19
+# filelock <= 4.2.0 (through cachecontrol): GHSA-9vhv-jxww-xfm5,
+# GHSA-567q-5qvw-pf92 and GHSA-v4x8-3wr5-3wq8. The tree pinned 4.1.0 for
+# Python 3.10, which pip-audit on 3.12 skipped; no affected filelock may
+# resolve.
+filelock>=4.2.1

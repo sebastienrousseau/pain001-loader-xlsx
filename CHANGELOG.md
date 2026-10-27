@@ -21,7 +21,24 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
-Nothing yet.
+### Security
+
+- `requirements/audit.txt` pinned filelock 4.1.0 for Python 3.10
+  (GHSA-9vhv-jxww-xfm5, GHSA-567q-5qvw-pf92, GHSA-v4x8-3wr5-3wq8), which
+  pip-audit on 3.12 skipped because of its marker. `audit.in` now floors
+  `filelock >= 4.2.1`, and with the 3.10 entries gone the tree pins
+  4.2.4.
+
+### Removed
+
+- Python 3.10 support. The floor is 3.11 (`requires-python = ">=3.11"`),
+  the pain001 suite's decision for 0.0.75: 3.10 reaches end of life in
+  October 2026, and current hypothesis releases need 3.11, which broke
+  Dependabot's resolver for siblings on a 3.10 floor. CI tests 3.11 to
+  3.14; ruff and mypy target 3.11; the 3.10 classifier, the `tomli`
+  backport and the 3.10 branch in `scripts/check_suite_consistency.py`
+  are gone, and `make pip-compile` compiles for 3.11 (only the packages
+  for 3.10 leave). pip keeps 3.10 users on pain001-loader-xlsx 0.0.74.
 
 ## [0.0.74] - 2026-10-21
 
