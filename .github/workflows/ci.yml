@@ -72,6 +72,22 @@ jobs:
           name: benchmarks-py${{ matrix.python-version }}
           path: .benchmarks/
 
+  test-all:
+    # Branch protection requires this check by name. It stands for every
+    # leg of the test matrix, so adding or dropping a version never
+    # renames a required check.
+    name: Test (all)
+    if: always()
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions: {}
+    steps:
+      - name: Every leg of the matrix passed
+        env:
+          RESULT: ${{ needs.test.result }}
+        run: test "$RESULT" = success
+
   # release.yml refuses to publish without releases/v<version>.md, but it
   # only finds out after a tag has been pushed — which is how v0.1.0 failed
   # with "Release notes missing at releases/v0.1.0.md" on an already-public
