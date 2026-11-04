@@ -3,4 +3,4 @@
 # Mutation testing (mutation.yml): the test tree plus mutmut 3.
 # Regenerate with: make pip-compile
 -r test.in
-mutmut>=3.7,<4
+mutmut>=3.8.1,<4
