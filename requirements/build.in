@@ -9,4 +9,4 @@ hatchling>=1.21
 twine
 # GHSA-6q48-6c7w-9gw2: certifi before 2026.10.19 bundles emSign roots
 # with compromised intermediates; no affected release may resolve.
-certifi>=2026.10.19
+certifi>=2026.10.23
