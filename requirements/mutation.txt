@@ -587,9 +587,9 @@ pytest==9.2.0 \
     #   mutmut
     #   pytest-benchmark
     #   pytest-cov
-pytest-benchmark==5.3.0 \
-    --hash=sha256:358444d4e89be901ee2b6404fb043ac3d7684002ad7f3563cc153fca6339c965 \
-    --hash=sha256:920ab1dfcffa718d49aa15ba144c7e357bda59216a0dc308016cc1c7236f719d
+pytest-benchmark==5.3.1 \
+    --hash=sha256:c1ee70a58f9bfb1ac955cc634247a340b0df7bcb949071cfca396f16c6fc3516 \
+    --hash=sha256:d7732a9952b1c4a4a32277adc693739126eab37afc3a711847f53805ccadc020
     # via -r requirements/test.in
 pytest-cov==7.1.0 \
     --hash=sha256:30674f2b5f6351aa09702a9c8c364f6a01c27aae0c1366ae8016160d1efc56b2 \
