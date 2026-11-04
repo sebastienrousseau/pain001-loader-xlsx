@@ -9,7 +9,7 @@
 -r runtime.in
 pytest>=8
 pytest-cov>=5
-pytest-benchmark>=5
+pytest-benchmark>=5.3.1
 interrogate>=1.7
 # tests/test_check_complexity.py imports the gate, so its tools are here too.
 -r complexity.in
