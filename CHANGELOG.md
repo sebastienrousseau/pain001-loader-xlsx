@@ -23,16 +23,17 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 Nothing yet.
 
-## [0.0.76] - 2026-11-05
+## [0.0.77] - 2026-11-06
 
-Released in lockstep with `pain001` 0.0.76. The loader is unchanged:
-this release moves the `pain001` floor to 0.0.76, as the suite's
+Released in lockstep with `pain001` 0.0.77. The loader is unchanged:
+this release moves the `pain001` floor to 0.0.77, as the suite's
 lockstep policy requires, and carries the dependency updates merged
-since 0.0.75.
+since 0.0.75. 0.0.76 was prepared on 2026-11-05 but never tagged or
+published, so its changes ship here.
 
 ### Changed
 
-- Requires `pain001 >= 0.0.76, < 1` (`pyproject.toml` and
+- Requires `pain001 >= 0.0.77, < 1` (`pyproject.toml` and
   `requirements/runtime.in`).
 - Development and CI tools: hatchling 1.33.0, pytest 9.2.0,
   pytest-benchmark 5.3.1, mypy 2.4.1, ruff 0.17.3, complexipy 8.3.0,

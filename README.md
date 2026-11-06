@@ -65,9 +65,9 @@
 python -m pip install pain001-loader-xlsx
 ```
 
-> **Latest release: v0.0.76**: released in lockstep with the pain001
+> **Latest release: v0.0.77**: released in lockstep with the pain001
 > suite, for Python 3.11+, with refreshed hash-pinned dependencies;
-> requires `pain001 >= 0.0.76`. See [CHANGELOG.md](CHANGELOG.md).
+> requires `pain001 >= 0.0.77`. See [CHANGELOG.md](CHANGELOG.md).
 
 Published packages and development checkouts are distinct. Test unreleased
 changes on this companion's development branches against the matching core
