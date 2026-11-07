@@ -23,6 +23,19 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 Nothing yet.
 
+## [0.0.78] - 2026-11-07
+
+Released in lockstep with `pain001` 0.0.78, which adds faces
+(projections of a pain.001 document into UK Open Banking, Berlin Group
+and ISO 20022 element names). The loader is unchanged: this release
+moves the `pain001` floor to 0.0.78, as the suite's lockstep policy
+requires.
+
+### Changed
+
+- Requires `pain001 >= 0.0.78, < 1` (`pyproject.toml` and
+  `requirements/runtime.in`).
+
 ## [0.0.77] - 2026-11-06
 
 Released in lockstep with `pain001` 0.0.77. The loader is unchanged:
