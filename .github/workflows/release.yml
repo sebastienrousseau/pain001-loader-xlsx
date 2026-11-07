@@ -225,3 +225,28 @@ jobs:
             "pain001-loader-xlsx-${RELEASE_TAG}.spdx.json" \
             "pain001-loader-xlsx-${RELEASE_TAG}.cdx.json" \
             --repo "${{ github.repository }}" --clobber
+
+  # Runs last, once every asset is attached (dist, signatures, SBOMs),
+  # and rewrites the release body from the live release in the suite's
+  # shape: Highlights from releases/v<version>.md, the pull requests
+  # merged since the previous release, the SHA-256 of every asset and the
+  # Full Changelog link. scripts/release_notes.py is vendored
+  # byte-identical from pain001.
+  release-notes:
+    name: Release notes
+    needs: [github-release, sbom]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write       # edit the release title and body
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Compose and publish the release body
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          python3 scripts/release_notes.py publish --repo "$REPO" \
+            --tag "$GITHUB_REF_NAME" --project pain001-loader-xlsx

@@ -19,9 +19,29 @@ plugin built against a newer contract than its host raises rather than
 misbehaving — but it is a safety net, not the versioning rule. See
 `pain001.suite`, which a daily job checks against PyPI.
 
-## [Unreleased]
+## [0.0.79] - 2026-11-07
 
-Nothing yet.
+Released in lockstep with `pain001` 0.0.79. The loader is unchanged:
+this release moves the `pain001` floor to 0.0.79, as the suite's
+lockstep policy requires, and has the release workflow write the
+release page itself.
+
+### Changed
+
+- Requires `pain001 >= 0.0.79, < 1` (`pyproject.toml` and
+  `requirements/runtime.in`); every hash-pinned requirements file that
+  carries `pain001` now pins 0.0.79.
+- The release page is written by the release workflow in the suite's
+  shape. A last `release-notes` job runs `scripts/release_notes.py
+  publish` once every asset is attached: the title is `pain001-loader-xlsx X.Y.Z`,
+  the Highlights come from `releases/vX.Y.Z.md`, What's Changed lists
+  the pull requests merged since the previous release, and Checksums
+  gives the SHA-256 of every asset. The 0.0.77 and 0.0.78 pages had to
+  be rewritten by hand.
+- `tests/test_release_notes.py` fails a pull request whose CHANGELOG
+  dates the version while `releases/vX.Y.Z.md` is missing or has other
+  than 2 to 4 highlights. Both files are vendored byte-identical from
+  `pain001`.
 
 ## [0.0.78] - 2026-11-07
 
@@ -299,8 +319,6 @@ repository was missing.
 Coverage was already 100% and remains so. The gate was mutation-tested:
 adding a function no test calls drops coverage below the floor and fails
 the run, locally as well as in CI.
-
-## [Unreleased]
 
 ## [0.0.62] - 2026-08-21
 

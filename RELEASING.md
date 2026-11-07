@@ -31,7 +31,7 @@ A release is ready only when all of the following hold on `main`:
 2. Every Dependabot and CodeQL alert is resolved or has a documented,
    expiring suppression.
 3. `CHANGELOG.md` has a dated section for the new version, newest first.
-4. Release notes exist at `releases/v0.0.X.md`; CI's "Release Notes Present" check and the release workflow both fail without them.
+4. Release notes exist at `releases/v0.0.X.md` with a `## Highlights` section of two to four bullets; CI's "Release Notes Present" check, `tests/test_release_notes.py` and the release workflow all fail without them.
 5. The version is identical in `pyproject.toml` and `pain001_loader_xlsx/__init__.py`.
 
 ## Cutting the release
@@ -52,7 +52,12 @@ A release is ready only when all of the following hold on `main`:
    sigstore, creates the GitHub release with the files and their
    `.sig`/`.pem`, publishes to PyPI through trusted publishing with PEP 740
    attestations, and attaches CycloneDX and SPDX SBOMs of the installed
-   package.
+   package. Its last job, `release-notes`, sets the title to
+   `pain001-loader-xlsx 0.0.X` and rewrites the body with
+   `scripts/release_notes.py publish`: the note's Highlights, the pull
+   requests merged since the previous release, the SHA-256 of every
+   attached asset and the Full Changelog link. Preview it with
+   `--dry-run`.
 
 ## After releasing
 
