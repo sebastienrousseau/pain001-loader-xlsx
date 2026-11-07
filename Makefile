@@ -24,7 +24,7 @@ lint: ## Ruff check and format check
 	$(PYTHON) -m ruff format --check .
 
 type-check: ## mypy --strict over the package and the gate scripts
-	$(PYTHON) -m mypy pain001_loader_xlsx scripts/check_complexity.py scripts/check_suite_consistency.py
+	$(PYTHON) -m mypy pain001_loader_xlsx scripts/check_complexity.py scripts/check_suite_consistency.py scripts/release_notes.py
 
 complexity: ## Complexity ceilings against complexity-baseline.json (needs requirements/complexity.txt)
 	$(PYTHON) scripts/check_complexity.py
