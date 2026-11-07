@@ -550,9 +550,9 @@ packaging==26.3 \
     --hash=sha256:94edc256424af38762eb31306eed28beb9f0efc50a8837492c9d6fd6004aed79 \
     --hash=sha256:d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c
     # via pytest
-pain001==0.0.77 \
-    --hash=sha256:a5bda90f36b45f495366735c0244409047fd5874b03073833541fdd3adad79ea \
-    --hash=sha256:df66eda2ff8493378a2cefb41f6ec1207d4e63292146aeac18ac6fdc4c25ba5d
+pain001==0.0.78 \
+    --hash=sha256:079342a08b36c9020d66e16d1d7470de9f8f59cdab624e5d403c6254cd452e35 \
+    --hash=sha256:84a9042b971dfc49fcd7edc3279781fc10ab1d8e4e79d23c754bb8401753f8f3
     # via -r requirements/runtime.in
 platformdirs==4.13.5 \
     --hash=sha256:05831adf87d392760f4b5c3a0a95579ab5a10b18b9b9bd43680dcb47544788a0 \
