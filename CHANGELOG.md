@@ -19,6 +19,20 @@ plugin built against a newer contract than its host raises rather than
 misbehaving — but it is a safety net, not the versioning rule. See
 `pain001.suite`, which a daily job checks against PyPI.
 
+## [0.0.80] - 2026-11-07
+
+Released in lockstep with `pain001` 0.0.80, a security release of the
+core's REST API
+([GHSA-vv3x-jpvc-w468](https://github.com/sebastienrousseau/pain001/security/advisories/GHSA-vv3x-jpvc-w468)).
+Nothing in this loader changed beyond the version and the `pain001`
+floor.
+
+### Changed
+
+- Requires `pain001 >= 0.0.80, < 1` (`pyproject.toml` and
+  `requirements/runtime.in`); every hash-pinned requirements file that
+  carries `pain001` now pins 0.0.80.
+
 ## [0.0.79] - 2026-11-07
 
 Released in lockstep with `pain001` 0.0.79. The loader is unchanged:
