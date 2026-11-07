@@ -19,10 +19,18 @@ plugin built against a newer contract than its host raises rather than
 misbehaving — but it is a safety net, not the versioning rule. See
 `pain001.suite`, which a daily job checks against PyPI.
 
-## [Unreleased]
+## [0.0.79] - 2026-11-07
+
+Released in lockstep with `pain001` 0.0.79. The loader is unchanged:
+this release moves the `pain001` floor to 0.0.79, as the suite's
+lockstep policy requires, and has the release workflow write the
+release page itself.
 
 ### Changed
 
+- Requires `pain001 >= 0.0.79, < 1` (`pyproject.toml` and
+  `requirements/runtime.in`); every hash-pinned requirements file that
+  carries `pain001` now pins 0.0.79.
 - The release page is written by the release workflow in the suite's
   shape. A last `release-notes` job runs `scripts/release_notes.py
   publish` once every asset is attached: the title is `pain001-loader-xlsx X.Y.Z`,
