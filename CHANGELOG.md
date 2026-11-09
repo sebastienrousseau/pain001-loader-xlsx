@@ -25,6 +25,11 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 - Audit all nine suite repositories and their publication channels daily and after publishing workflows, using the shared checker pinned to a core commit.
 
+### Changed
+
+- CI actions: github/codeql-action 4.39.3, sigstore/cosign-installer
+  4.1.3 and softprops/action-gh-release 3.0.4 (Dependabot #59).
+
 ## [0.0.83] - 2026-11-09
 
 Released in lockstep with [pain001 0.0.83](https://github.com/sebastienrousseau/pain001/releases/tag/v0.0.83). Nothing in this loader changed
