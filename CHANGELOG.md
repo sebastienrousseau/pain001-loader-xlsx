@@ -19,6 +19,25 @@ plugin built against a newer contract than its host raises rather than
 misbehaving — but it is a safety net, not the versioning rule. See
 `pain001.suite`, which a daily job checks against PyPI.
 
+## [0.0.82] - 2026-11-09
+
+Released in lockstep with [pain001 0.0.82](https://github.com/sebastienrousseau/pain001/releases/tag/v0.0.82). Nothing in this loader changed
+beyond the version and the `pain001` floor. The loader passes your
+workbook's columns through, so the core's 0.0.82 changes apply to
+them: for pain.001.001.04 to .08, a valid IBAN column is written as
+`<IBAN>` and a non-empty `service_level_code` column as
+`PmtTpInf/SvcLvl/Cd`, and rows whose `service_level_code` values
+differ are refused, as they already were for .03 and .09 to .13.
+
+### Changed
+
+- Requires `pain001 >= 0.0.82, < 1` (`pyproject.toml` and
+  `requirements/runtime.in`; every
+  requirement file that pins `pain001` regenerated with the command in
+  its header).
+- Development tools: ruff 0.17.4 and filelock 4.2.9 (Dependabot #54
+  and #55).
+
 ## [0.0.81] - 2026-11-08
 
 Released in lockstep with [pain001 0.0.81](https://github.com/sebastienrousseau/pain001/releases/tag/v0.0.81). Nothing in this loader changed

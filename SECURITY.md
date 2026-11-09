@@ -12,9 +12,9 @@ the latest major. While pre-`1.0`, that means **the latest released
 
 | Version | Status | Receives security fixes? |
 | :--- | :--- | :--- |
-| `0.0.81` (latest) | Current | ✅ Yes |
-| `0.0.80` | Prior | ✅ Yes |
-| `≤ 0.0.79` | Old (0.0.76 was never published) | ❌ No, upgrade |
+| `0.0.82` (latest) | Current | ✅ Yes |
+| `0.0.81` | Prior | ✅ Yes |
+| `≤ 0.0.80` | Old (0.0.76 was never published) | ❌ No, upgrade |
 
 ## Reporting a vulnerability
 
@@ -67,7 +67,7 @@ pain001 the plaintext.
 - **Sigstore attestations** for sdist + wheel via
   `pypa/gh-action-pypi-publish`.
 - **Signed git tags**: every release tag is signed with the
-  maintainer's SSH key (`git tag --verify v0.0.81`).
+  maintainer's SSH key (`git tag --verify v0.0.82`).
 - **No `--no-verify` or `--allow-unverified` shortcuts** in any
   release workflow.
 
