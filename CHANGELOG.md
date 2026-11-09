@@ -19,6 +19,20 @@ plugin built against a newer contract than its host raises rather than
 misbehaving — but it is a safety net, not the versioning rule. See
 `pain001.suite`, which a daily job checks against PyPI.
 
+## [0.0.83] - 2026-11-09
+
+Released in lockstep with [pain001 0.0.83](https://github.com/sebastienrousseau/pain001/releases/tag/v0.0.83). Nothing in this loader changed
+beyond the version and the `pain001` floor. The core's 0.0.83 changes
+are to XML signing and signature verification; the XML it writes from
+workbook rows is the same as with 0.0.82.
+
+### Changed
+
+- Requires `pain001 >= 0.0.83, < 1` (`pyproject.toml` and
+  `requirements/runtime.in`; every
+  requirement file that pins `pain001` regenerated with the command in
+  its header).
+
 ## [0.0.82] - 2026-11-09
 
 Released in lockstep with [pain001 0.0.82](https://github.com/sebastienrousseau/pain001/releases/tag/v0.0.82). Nothing in this loader changed

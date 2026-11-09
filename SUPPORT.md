@@ -87,8 +87,8 @@ Issues spanning multiple packages can be filed against `pain001`
 
 | Version | Supported? |
 | :--- | :--- |
-| 0.0.82 (latest) | ✅ |
-| 0.0.81 (prior) | ✅ security fixes |
-| ≤ 0.0.80 (0.0.76 was never published) | ❌ |
+| 0.0.83 (latest) | ✅ |
+| 0.0.82 (prior) | ✅ security fixes |
+| ≤ 0.0.81 (0.0.76 was never published) | ❌ |
 
-Requires Python 3.11+ and `pain001 >= 0.0.82`.
+Requires Python 3.11+ and `pain001 >= 0.0.83`.
