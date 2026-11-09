@@ -68,7 +68,7 @@ jobs:
           subject-path: "dist/*"
 
       - name: Install cosign
-        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6 # v4.1.2
+        uses: sigstore/cosign-installer@756fe2d284c7292c4e9b62c8a28f1e5629c59532 # v4.1.3
         with:
           cosign-release: "v2.4.3"
 
@@ -134,7 +134,7 @@ jobs:
       # The title is "<project> <version>", never the bare tag: the
       # family's release invariant (no leading v, project name first).
       - name: Create GitHub release
-        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
+        uses: softprops/action-gh-release@8a0cd651e5b2365bd640854a3fa5dfc70e4875f3 # v3.0.4
         with:
           name: pain001-loader-xlsx ${{ steps.notes.outputs.version }}
           body_path: release_notes.md

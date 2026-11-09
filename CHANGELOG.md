@@ -29,6 +29,9 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ### Changed
 
+- CI actions: github/codeql-action 4.39.3, sigstore/cosign-installer
+  4.1.3 and softprops/action-gh-release 3.0.4 (Dependabot #59).
+
 - Release 0.0.84 with the suite and require core pain001 0.0.84. Regenerate dependency locks from the published core artifacts.
 
 ## [0.0.83] - 2026-11-09
