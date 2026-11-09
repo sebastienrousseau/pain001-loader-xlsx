@@ -11,4 +11,4 @@ certifi>=2026.10.23
 # GHSA-567q-5qvw-pf92 and GHSA-v4x8-3wr5-3wq8. The tree pinned 4.1.0 for
 # Python 3.10, which pip-audit on 3.12 skipped; no affected filelock may
 # resolve.
-filelock>=4.2.1
+filelock>=4.2.9
