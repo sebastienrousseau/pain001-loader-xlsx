@@ -19,6 +19,12 @@ plugin built against a newer contract than its host raises rather than
 misbehaving — but it is a safety net, not the versioning rule. See
 `pain001.suite`, which a daily job checks against PyPI.
 
+## [Unreleased]
+
+### Added
+
+- Audit all nine suite repositories and their publication channels daily and after publishing workflows, using the shared checker pinned to a core commit.
+
 ## [0.0.83] - 2026-11-09
 
 Released in lockstep with [pain001 0.0.83](https://github.com/sebastienrousseau/pain001/releases/tag/v0.0.83). Nothing in this loader changed
