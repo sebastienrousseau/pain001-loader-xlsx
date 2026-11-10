@@ -50,6 +50,11 @@ misbehaving — but it is a safety net, not the versioning rule. See
   `tests/test_readme.py` fails CI on drift from the sources, an
   unresolved `{{TOKEN}}`, a dangling relative link or a section out of
   the canonical order.
+- The manual's footer links the author's name on every page, and
+  `docs.yml` fails a build where a page lacks it. A separate `Link check`
+  job (`make linkcheck`) runs Sphinx linkcheck over external links, and
+  `tests/test_docs_links.py` checks every repository-relative link in
+  the Markdown sources offline.
 
 ## [0.0.85] - 2026-11-10
 

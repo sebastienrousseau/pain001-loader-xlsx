@@ -48,7 +48,9 @@ Codespace or VS Code container and finishes by running `make check`.
 | Release notes present for the current version | `test -f releases/v$(python -c 'import pain001_loader_xlsx as p; print(p.__version__)').md` | `ci.yml` Release Notes Present |
 | Advisory audit of every requirements file | `make audit` (needs `requirements/audit.txt`) | `ci.yml` Dependency audit |
 | Docs lint (codespell, markdownlint) | `make docs-lint` | `docs-lint.yml` |
-| Docs build, warnings as errors | `make docs` (needs `requirements/docs.txt`) | `docs.yml` |
+| Docs build, warnings as errors, every page links the author | `make docs` (needs `requirements/docs.txt`) | `docs.yml` build |
+| External links in the manual (network) | `make linkcheck` (needs `requirements/docs.txt`) | `docs.yml` Link check |
+| Repository-relative links in every Markdown file | `make test` (`tests/test_docs_links.py`) | `ci.yml` Test |
 | Fuzzing (Atheris, Linux x86_64 only) | `make fuzz` (needs `requirements/fuzz.txt`) | `fuzz.yml` |
 | Mutation score floor | `make mutate` (needs `requirements/mutation.txt`) | `mutation.yml` |
 | Static analysis | none locally | `codeql.yml` |
@@ -76,6 +78,7 @@ tests/
   test_workbook_cleanup.py       rejected workbooks do not leak open file handles
   test_examples.py               runs every examples/[0-9]*.py
   test_readme.py                 README section order, tokens, links; Quick Start run verbatim
+  test_docs_links.py             every relative link in the Markdown sources resolves
   test_fuzz.py                   replays fuzz/corpus without Atheris
   test_benchmarks.py             scaling and memory guards (pytest-benchmark)
   test_check_*.py, test_release_notes.py   the gate and release scripts

@@ -45,11 +45,52 @@ jobs:
       - name: Build Sphinx documentation (warnings are errors)
         run: sphinx-build -W --keep-going -b html docs docs/_build/html
 
+      # Portfolio rule: every page of a published manual links the
+      # author's name. conf.py sets it; this proves the built output.
+      - name: Every page links the author
+        run: |
+          set -euo pipefail
+          missing=$(grep -rL --include='*.html' \
+            'rel="author">Sebastien Rousseau</a>' docs/_build/html || true)
+          if [ -n "$missing" ]; then
+            echo "::error::pages without the author link:"
+            echo "$missing"
+            exit 1
+          fi
+
       - name: Upload artifact
         if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
         with:
           path: "docs/_build/html"
+
+  # External links in the manual. Its own job, not part of the required
+  # "build" check, so a third-party site being down cannot block a merge;
+  # repository-relative links are checked offline by tests/test_docs_links.py.
+  linkcheck:
+    name: Link check
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install the docs toolchain and the package (hash-pinned)
+        run: |
+          pip install --require-hashes -r requirements/docs.txt
+          pip install --no-deps -e .
+
+      - name: Sphinx linkcheck
+        run: sphinx-build -b linkcheck docs docs/_build/linkcheck
 
   deploy:
     if: github.event_name != 'pull_request'

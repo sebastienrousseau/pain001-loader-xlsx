@@ -40,6 +40,9 @@ docs-lint: ## codespell (requirements/docs-lint.txt) and markdownlint-cli2 (need
 	codespell
 	npx --yes markdownlint-cli2@0.23.3 "**/*.md"
 
+linkcheck: ## Check the manual's external links (network; needs requirements/docs.txt)
+	sphinx-build -b linkcheck docs docs/_build/linkcheck
+
 mutate: ## Mutation testing (mutmut 3, config in pyproject)
 	rm -rf mutants
 	$(PYTHON) -m mutmut run
@@ -72,4 +75,4 @@ demo: ## Re-render .github/demo.gif from .github/demo.tape (needs vhs)
 
 check: lint type-check complexity test doc-coverage ## Run all gates
 
-.PHONY: help install test lint type-check complexity doc-coverage docs docs-lint mutate audit pip-compile fuzz demo check
+.PHONY: help install test lint type-check complexity doc-coverage docs docs-lint linkcheck mutate audit pip-compile fuzz demo check
