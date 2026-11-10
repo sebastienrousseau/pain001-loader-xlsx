@@ -31,6 +31,11 @@ misbehaving — but it is a safety net, not the versioning rule. See
   (`tests/test_readme.py`): it builds a workbook from core's
   `pain.001.001.03` template rows, lists the loaders and generates XML,
   so a CLI or entry-point change fails CI instead of a reader's terminal.
+- Add `.editorconfig`, a `.pre-commit-config.yaml` with hooks pinned by
+  commit SHA (pre-commit-hooks 6.0.0, ruff 0.17.4, codespell 2.4.3), a
+  devcontainer that installs the new hash-pinned `requirements/dev.txt`
+  and runs `make check`, and a codespell job in `docs-lint.yml`
+  (`make docs-lint` runs it with markdownlint).
 
 ## [0.0.85] - 2026-11-10
 

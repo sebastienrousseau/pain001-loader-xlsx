@@ -70,6 +70,13 @@ target-version = "py311"
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "C4", "UP", "N", "SIM"]
 
+[tool.codespell]
+# Spelling gate for the docs-lint job and the pre-commit hook. The fuzz
+# corpus is deliberately malformed bytes, the requirements files are
+# hashes, and the rest are generated or third-party trees.
+skip = "./.git,./.venv,./.mypy_cache,./.ruff_cache,./.pytest_cache,./.complexipy_cache,./mutants,./docs/_build,./fuzz/corpus,./requirements,*.gif,*.xlsx,.coverage,coverage.xml"
+quiet-level = 3
+
 [tool.pytest.ini_options]
 addopts = "--strict-markers --strict-config -q --cov=pain001_loader_xlsx --cov-branch --cov-report=term-missing"
 markers = [

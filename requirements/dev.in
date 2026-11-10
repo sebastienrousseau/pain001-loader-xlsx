@@ -1,0 +1,7 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# One resolved tree with everything `make check` runs: tests, lint,
+# types and complexity. Used by the devcontainer; CI keeps one file per
+# job. Regenerate with: make pip-compile
+-r test.in
+-r lint.in

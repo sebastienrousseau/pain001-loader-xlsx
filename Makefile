@@ -36,6 +36,10 @@ doc-coverage: ## 100% docstring coverage
 docs: ## Build the Sphinx documentation (warnings are errors)
 	sphinx-build -W --keep-going -b html docs docs/_build/html
 
+docs-lint: ## codespell (requirements/docs-lint.txt) and markdownlint-cli2 (needs Node)
+	codespell
+	npx --yes markdownlint-cli2@0.23.3 "**/*.md"
+
 mutate: ## Mutation testing (mutmut 3, config in pyproject)
 	rm -rf mutants
 	$(PYTHON) -m mutmut run
@@ -68,4 +72,4 @@ demo: ## Re-render .github/demo.gif from .github/demo.tape (needs vhs)
 
 check: lint type-check complexity test doc-coverage ## Run all gates
 
-.PHONY: help install test lint type-check complexity doc-coverage docs mutate audit pip-compile fuzz demo check
+.PHONY: help install test lint type-check complexity doc-coverage docs docs-lint mutate audit pip-compile fuzz demo check
