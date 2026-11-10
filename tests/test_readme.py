@@ -1,16 +1,20 @@
 # SPDX-License-Identifier: Apache-2.0 OR MIT
 
-"""Keep the README's runnable claims true.
+"""Keep the README canonical and its runnable claims true.
 
-The Quick Start is executed verbatim, so a change to the pain001 CLI or
-to this loader's entry point fails here rather than in a reader's
-terminal.
+The README is rendered from ``docs/readme-template.md`` and
+``docs/readme-values.json``; these tests hold the result to the
+portfolio's canonical section order, refuse unresolved ``{{TOKEN}}``
+placeholders and dangling repository links, and execute the Quick Start
+verbatim, so a change to the pain001 CLI or to this loader's entry point
+fails here rather than in a reader's terminal.
 """
 
 from __future__ import annotations
 
 import csv
 import importlib.resources
+import importlib.util
 import json
 import re
 import subprocess
@@ -21,6 +25,38 @@ import openpyxl
 
 ROOT = Path(__file__).resolve().parents[1]
 README = (ROOT / "README.md").read_text(encoding="utf-8")
+
+# The second-level headings of ~/Code/README-TEMPLATE.md, in order.
+CANONICAL_SECTIONS = [
+    "Contents",
+    "Install",
+    "Requirements",
+    "Quick Start",
+    "The pain001-loader-xlsx ecosystem",
+    "Capabilities at a glance",
+    "Ecosystem comparison",
+    "Benchmarks",
+    "Features",
+    "Configuration",
+    "Examples",
+    "When not to use pain001-loader-xlsx",
+    "Development",
+    "Security",
+    "Documentation",
+    "Stability guarantees",
+    "License",
+]
+
+
+def _rendered_readme() -> str:
+    """Render the README with ``scripts/render_readme.py``."""
+    path = ROOT / "scripts" / "render_readme.py"
+    spec = importlib.util.spec_from_file_location("render_readme", path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    rendered: str = module.render()
+    return rendered
 
 
 def _section(title: str) -> str:
@@ -74,3 +110,28 @@ def test_quick_start_runs_verbatim(tmp_path: Path) -> None:
     loaders = json.loads(outputs[0])
     assert "xlsx" in {entry["name"] for entry in loaders}
     assert list((tmp_path / "output").glob("*.xml"))
+
+
+def test_readme_matches_its_sources() -> None:
+    """The committed README is exactly what the renderer produces."""
+    assert _rendered_readme() == README
+
+
+def test_readme_has_no_unresolved_tokens() -> None:
+    """Every template placeholder was filled from readme-values.json."""
+    assert not re.findall(r"\{\{[A-Z_]+\}\}", README)
+
+
+def test_readme_sections_follow_the_canonical_order() -> None:
+    """The README keeps the canonical headings, in order, and no others."""
+    assert re.findall(r"^## (.+)$", README, re.M) == CANONICAL_SECTIONS
+
+
+def test_readme_repository_links_resolve() -> None:
+    """Every relative link and image in the README points at a file."""
+    targets = re.findall(r"\]\(([^)]+)\)", README)
+    targets += re.findall(r'(?:src|href)="([^"]+)"', README)
+    local = [t for t in targets if "://" not in t and not t.startswith("#")]
+    assert local
+    missing = [t for t in local if not (ROOT / t.split("#")[0]).exists()]
+    assert not missing, missing

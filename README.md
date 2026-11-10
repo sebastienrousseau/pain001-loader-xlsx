@@ -1,4 +1,8 @@
 <!-- SPDX-License-Identifier: Apache-2.0 OR MIT -->
+<!--
+README template. Global rules: see ~/Code/AGENTS.md and ~/Code/REPO-STANDARD.md.
+Releases adhere strictly to https://github.com/sebastienrousseau/passmcp/releases/tag/v0.0.5
+-->
 
 <p align="center">
   <img src="https://cloudcdn.pro/pain001/v1/logos/pain001.svg" alt="pain001-loader-xlsx logo" width="128" />
@@ -13,7 +17,7 @@
 <p align="center">
   <a href="https://github.com/sebastienrousseau/pain001-loader-xlsx/actions"><img src="https://img.shields.io/github/actions/workflow/status/sebastienrousseau/pain001-loader-xlsx/ci.yml?style=for-the-badge&logo=github" alt="Build" height="28" /></a>
   <a href="https://pypi.org/project/pain001-loader-xlsx/"><img src="https://img.shields.io/pypi/v/pain001-loader-xlsx?style=for-the-badge&color=fc8d62&logo=python" alt="Registry" height="28" /></a>
-  <a href="docs/index.md"><img src="https://img.shields.io/badge/docs-source-blue?style=for-the-badge&labelColor=555555&logo=readthedocs" alt="Docs" height="28" /></a>
+  <a href="https://sebastienrousseau.com/pain001-loader-xlsx/api.html"><img src="https://img.shields.io/badge/docs-manual-blue?style=for-the-badge&labelColor=555555&logo=readthedocs" alt="Docs" height="28" /></a>
   <a href="https://scorecard.dev/viewer/?uri=github.com/sebastienrousseau/pain001-loader-xlsx"><img src="https://img.shields.io/ossf-scorecard/github.com/sebastienrousseau/pain001-loader-xlsx?style=for-the-badge&label=OpenSSF%20Scorecard&logo=openssf" alt="OpenSSF Scorecard" height="28" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-Apache--2.0%20OR%20MIT-blue.svg?style=for-the-badge" alt="License: Apache-2.0 OR MIT" height="28" /></a>
   <a href="https://github.com/sebastienrousseau/pain001-loader-xlsx/blob/main/docs/POLICIES.md"><img src="https://img.shields.io/badge/Python-3.11%2B-93450a.svg?style=for-the-badge&logo=python" alt="Python 3.11 or newer" height="28" /></a>
@@ -167,8 +171,15 @@ core's generated CLI help for generation flags.
 
 ## Examples
 
-Run the self-checking scripts under [examples/](examples/). Tests cover valid
-and malformed inputs and integration with the core contract.
+Each script builds a synthetic workbook in a temporary directory, checks
+its own output and exits 0; `tests/test_examples.py` runs every one in CI.
+
+| Example | Shows |
+| :--- | :--- |
+| [`01_load_xlsx.py`](examples/01_load_xlsx.py) | Load a two-row workbook through `XlsxLoader` and read `LoaderResult.rows` |
+| [`02_iban_safety_guard.py`](examples/02_iban_safety_guard.py) | A numeric IBAN cell refused with Excel's Text-format guidance |
+
+See [examples/README.md](examples/README.md) for how to run them.
 
 ---
 
@@ -211,7 +222,7 @@ Report vulnerabilities according to [`SECURITY.md`](SECURITY.md).
 
 ## Documentation
 
-[What is pain.001?](https://pain001.com/pain-001/) · [User manual](docs/index.md) · [API reference](docs/index.md) ·
+[What is pain.001?](https://pain001.com/pain-001/) · [User manual](https://sebastienrousseau.com/pain001-loader-xlsx/) · [API reference](https://sebastienrousseau.com/pain001-loader-xlsx/api.html) ·
 [Developer guide](DEVELOPMENT.md) ·
 [Family map](https://github.com/sebastienrousseau/pain001#the-pain001-ecosystem)
 

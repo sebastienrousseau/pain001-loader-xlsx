@@ -75,7 +75,7 @@ tests/
   test_csv_equivalence.py        an xlsx and the equivalent CSV render byte-identical XML
   test_workbook_cleanup.py       rejected workbooks do not leak open file handles
   test_examples.py               runs every examples/[0-9]*.py
-  test_readme.py                 the README Quick Start, run verbatim
+  test_readme.py                 README section order, tokens, links; Quick Start run verbatim
   test_fuzz.py                   replays fuzz/corpus without Atheris
   test_benchmarks.py             scaling and memory guards (pytest-benchmark)
   test_check_*.py, test_release_notes.py   the gate and release scripts
@@ -93,7 +93,9 @@ test itself; no real account data is committed.
 `README.md` is generated. Edit `docs/readme-template.md` (a copy of the
 portfolio's canonical layout) or `docs/readme-values.json`, then run
 `python scripts/render_readme.py`. CI fails when the committed README
-differs from the rendered one.
+differs from the rendered one, when a `{{TOKEN}}` is left unresolved,
+when a relative link points at a missing file, or when the `##`
+sections depart from the canonical order (`tests/test_readme.py`).
 
 ## Release model
 

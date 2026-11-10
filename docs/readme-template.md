@@ -1,4 +1,8 @@
 <!-- SPDX-License-Identifier: {{LICENSE_SPDX}} -->
+<!--
+README template. Global rules: see ~/Code/AGENTS.md and ~/Code/REPO-STANDARD.md.
+Releases adhere strictly to https://github.com/sebastienrousseau/passmcp/releases/tag/v0.0.5
+-->
 
 <p align="center">
   <img src="{{LOGO_URL}}" alt="{{PROJECT_NAME}} logo" width="128" />

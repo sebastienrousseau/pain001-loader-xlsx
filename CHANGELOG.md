@@ -44,6 +44,12 @@ misbehaving — but it is a safety net, not the versioning rule. See
   README pipeline and the release model. Correct `CONTRIBUTING.md`,
   which named a `tests/test_stress.py` and a `perf` marker that do not
   exist, and include `ARCHITECTURE.md` in the manual.
+- The README template is now byte-identical to the portfolio's canonical
+  `README-TEMPLATE.md`, the docs badge and Documentation links point at
+  the published manual, and the Examples section indexes both scripts.
+  `tests/test_readme.py` fails CI on drift from the sources, an
+  unresolved `{{TOKEN}}`, a dangling relative link or a section out of
+  the canonical order.
 
 ## [0.0.85] - 2026-11-10
 
