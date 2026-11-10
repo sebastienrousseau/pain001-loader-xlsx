@@ -11,6 +11,7 @@ explains its structure, versions and a complete, schema-valid example.
 :caption: Contents
 
 readme
+ARCHITECTURE
 POLICIES
 COMPARISON
 BENCHMARKS

@@ -37,6 +37,14 @@ misbehaving — but it is a safety net, not the versioning rule. See
   and runs `make check`, and a codespell job in `docs-lint.yml`
   (`make docs-lint` runs it with markdownlint).
 
+### Changed
+
+- Rewrite `DEVELOPMENT.md` as the single developer entry point:
+  toolchain, the local command for every CI job, the test layout, the
+  README pipeline and the release model. Correct `CONTRIBUTING.md`,
+  which named a `tests/test_stress.py` and a `perf` marker that do not
+  exist, and include `ARCHITECTURE.md` in the manual.
+
 ## [0.0.85] - 2026-11-10
 
 ### Changed
