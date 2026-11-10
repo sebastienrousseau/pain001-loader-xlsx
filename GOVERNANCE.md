@@ -58,7 +58,7 @@ project.
 1. Contribute a few reviewed PRs ([`ARCHITECTURE.md`](ARCHITECTURE.md) is
    the map; good first areas: a cell format the normaliser does not yet cover, a workbook fixture, a benchmark).
 2. Help triage issues and review others' PRs.
-3. Open a discussion or email the lead maintainer expressing interest.
+3. Open an issue or email the lead maintainer expressing interest.
 
 A maintainer proposes you; with no objection from existing maintainers
 within a week, you are added to `MAINTAINERS.md`.

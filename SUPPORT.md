@@ -16,8 +16,8 @@ get help, by need.
 
 ## Questions & how-to
 
-Open a [GitHub Discussion](https://github.com/sebastienrousseau/pain001-loader-xlsx/discussions)
-with:
+Open a [GitHub issue](https://github.com/sebastienrousseau/pain001-loader-xlsx/issues/new) (the pain001 suite does not
+use GitHub Discussions) with:
 
 - Python version + OS
 - `pain001-loader-xlsx` version + `pain001` version
@@ -25,8 +25,8 @@ with:
 - The full error output
 
 Cross-package questions (e.g. how does the loader interact with
-pain001's REST API?) are also welcome on the parent's
-[Discussions](https://github.com/sebastienrousseau/pain001/discussions).
+pain001's REST API?) can also be filed as
+[issues on the core](https://github.com/sebastienrousseau/pain001/issues/new/choose).
 
 ## Bugs
 
@@ -58,27 +58,32 @@ pain001 may unlock new options.
 **Do not** open public issues for vulnerabilities. Follow the
 private disclosure process in [SECURITY.md](SECURITY.md).
 
-## Support tiers
+## Support
 
-This package is open source under Apache-2.0. There is no paid
-support tier.
+This package is free open-source software under Apache-2.0 OR MIT,
+maintained in a personal capacity. There is no paid tier, no SLA
+and no out-of-hours cover.
 
-- **Community support** (issues / discussions / PRs): best effort.
-- **Commercial support**: not available today. Contact
-  `support@pain001.com` so the maintainer can gauge demand.
+- **Community support** (issues / PRs): best effort.
 
 ## The pain001 suite
 
-This package is one of four:
+This package is one of the pain001 suite's packages, which ship
+together at one version. The closest ones are:
 
-- [`pain001`](https://github.com/sebastienrousseau/pain001) — core
+- [`pain001`](https://github.com/sebastienrousseau/pain001): core
   library, CLI, REST API
-- [`pain001-mcp`](https://github.com/sebastienrousseau/pain001-mcp)
-  — MCP server (AI agents)
-- [`pain001-lsp`](https://github.com/sebastienrousseau/pain001-lsp)
-  — Language Server (editors)
-- [`pain001-loader-xlsx`](https://github.com/sebastienrousseau/pain001-loader-xlsx)
-  — **Excel loader plugin (this package)**
+- [`pain001-mcp`](https://github.com/sebastienrousseau/pain001-mcp):
+  MCP server (AI agents)
+- [`pain001-lsp`](https://github.com/sebastienrousseau/pain001-lsp):
+  Language Server (editors)
+- [`pain001-loader-xlsx`](https://github.com/sebastienrousseau/pain001-loader-xlsx):
+  **Excel loader plugin (this package)**
+- [`pain001-loader-mt101`](https://github.com/sebastienrousseau/pain001-loader-mt101):
+  SWIFT MT101 loader plugin
+
+The [family map](https://github.com/sebastienrousseau/pain001#the-pain001-ecosystem)
+lists every member.
 
 Issues spanning multiple packages can be filed against `pain001`
 (the core); the maintainer will route them.
@@ -87,8 +92,8 @@ Issues spanning multiple packages can be filed against `pain001`
 
 | Version | Supported? |
 | :--- | :--- |
-| 0.0.84 (latest) | ✅ |
-| 0.0.83 (prior) | ✅ security fixes |
-| ≤ 0.0.82 (0.0.76 was never published) | ❌ |
+| 0.0.85 (latest) | ✅ |
+| 0.0.84 (prior) | ✅ security fixes |
+| ≤ 0.0.83 (0.0.76 was never published) | ❌ |
 
-Requires Python 3.11+ and `pain001 >= 0.0.84`.
+Requires Python 3.11+ and `pain001 >= 0.0.85`.
