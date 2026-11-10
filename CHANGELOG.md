@@ -27,6 +27,10 @@ misbehaving — but it is a safety net, not the versioning rule. See
   suite's shared text), issue forms, a pull request template, AGENTS.md
   and a markdownlint CI job (`docs-lint.yml`, configured in
   `.markdownlint-cli2.jsonc`).
+- Run the README Quick Start verbatim in the test suite
+  (`tests/test_readme.py`): it builds a workbook from core's
+  `pain.001.001.03` template rows, lists the loaders and generates XML,
+  so a CLI or entry-point change fails CI instead of a reader's terminal.
 
 ## [0.0.85] - 2026-11-10
 
