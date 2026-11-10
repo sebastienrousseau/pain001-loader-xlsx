@@ -16,5 +16,5 @@ Direct usage is supported but unnecessary for the common case:
 
 from pain001_loader_xlsx.loader import XlsxLoader
 
-__version__ = "0.0.84"
+__version__ = "0.0.85"
 __all__ = ["XlsxLoader", "__version__"]
