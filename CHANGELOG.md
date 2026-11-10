@@ -21,6 +21,13 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
+### Added
+
+- Add a code of conduct (adapted from Contributor Covenant 2.1, the
+  suite's shared text), issue forms, a pull request template, AGENTS.md
+  and a markdownlint CI job (`docs-lint.yml`, configured in
+  `.markdownlint-cli2.jsonc`).
+
 ## [0.0.85] - 2026-11-10
 
 ### Changed

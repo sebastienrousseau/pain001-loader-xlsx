@@ -1,0 +1,60 @@
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+name: Bug report
+description: Report a reproducible problem in pain001-loader-xlsx
+title: "[Bug]: "
+labels: ["bug", "triage"]
+body:
+  - type: markdown
+    attributes:
+      value: >-
+        Issues are public. Use synthetic data only: never paste real
+        account numbers, personal data or bank-restricted material. Report
+        a vulnerability privately as SECURITY.md describes, not here.
+  - type: input
+    id: version
+    attributes:
+      label: pain001-loader-xlsx version
+      placeholder: "0.0.85"
+    validations:
+      required: true
+  - type: dropdown
+    id: python_version
+    attributes:
+      label: Python version
+      options:
+        - "3.11"
+        - "3.12"
+        - "3.13"
+        - "3.14"
+    validations:
+      required: true
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating system
+      options:
+        - Linux
+        - macOS
+        - Windows
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened, and what did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproducible example
+      description: The smallest input and commands that show the problem.
+      render: python
+    validations:
+      required: true
+  - type: textarea
+    id: error_output
+    attributes:
+      label: Error output
+      render: text
