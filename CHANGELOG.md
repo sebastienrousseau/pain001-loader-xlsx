@@ -25,7 +25,8 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ### Changed
 
-- Release 0.0.85 in lockstep with the pain001 suite.
+- Release 0.0.85 in lockstep with the pain001 suite and require core
+  pain001 0.0.85; the locks resolve its published artifacts.
 - SUPPORT.md and GOVERNANCE.md point questions at GitHub issues (the suite does not use GitHub Discussions), say there is no paid tier, SLA or out-of-hours cover, and drop the commercial-support contact. The suite list names the MT101 loader and links the family map.
 
 ## [0.0.84] - 2026-11-09
