@@ -41,7 +41,8 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ### Changed
 
-- Release 0.0.86 in lockstep with the pain001 suite.
+- Release 0.0.86 in lockstep with the pain001 suite and require core
+  pain001 0.0.86; the locks resolve its published artifacts.
 - Rewrite `DEVELOPMENT.md` as the single developer entry point:
   toolchain, the local command for every CI job, the test layout, the
   README pipeline and the release model. Correct `CONTRIBUTING.md`,
