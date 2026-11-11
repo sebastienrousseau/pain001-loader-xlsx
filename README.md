@@ -2,6 +2,8 @@
 <!--
 README template. Global rules: see ~/Code/AGENTS.md and ~/Code/REPO-STANDARD.md.
 Releases adhere strictly to https://github.com/sebastienrousseau/passmcp/releases/tag/v0.0.5
+Every image (logo, demo) uses an absolute https URL so it renders on PyPI,
+crates.io, npm and other registries, which do not resolve relative paths.
 -->
 
 <p align="center">
@@ -24,7 +26,7 @@ Releases adhere strictly to https://github.com/sebastienrousseau/passmcp/release
 </p>
 
 <p align="center">
-  <img src=".github/demo.gif" alt="pain001-loader-xlsx demo: examples/01_load_xlsx.py loads two payment rows from a workbook it writes, then examples/02_iban_safety_guard.py shows a numeric IBAN cell refused with Excel's Text-format guidance" width="100%" />
+  <img src="https://raw.githubusercontent.com/sebastienrousseau/pain001-loader-xlsx/main/.github/demo.gif" alt="pain001-loader-xlsx demo: examples/01_load_xlsx.py loads two payment rows from a workbook it writes, then examples/02_iban_safety_guard.py shows a numeric IBAN cell refused with Excel's Text-format guidance" width="100%" />
 </p>
 
 ---

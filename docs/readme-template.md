@@ -2,6 +2,8 @@
 <!--
 README template. Global rules: see ~/Code/AGENTS.md and ~/Code/REPO-STANDARD.md.
 Releases adhere strictly to https://github.com/sebastienrousseau/passmcp/releases/tag/v0.0.5
+Every image (logo, demo) uses an absolute https URL so it renders on PyPI,
+crates.io, npm and other registries, which do not resolve relative paths.
 -->
 
 <p align="center">
@@ -24,7 +26,7 @@ Releases adhere strictly to https://github.com/sebastienrousseau/passmcp/release
 </p>
 
 <p align="center">
-  <img src=".github/demo.gif" alt="{{DEMO_ALT_TEXT}}" width="100%" />
+  <img src="https://raw.githubusercontent.com/{{REPO_SLUG}}/main/.github/demo.gif" alt="{{DEMO_ALT_TEXT}}" width="100%" />
 </p>
 
 ---
