@@ -217,6 +217,8 @@ Read-only workbook loading does not run macros or evaluate formulas. Numeric
 IBAN, temporal-cell and control-character guards reject known spreadsheet
 coercions. Loading a
 workbook does not prove its accounts, amounts or bank rules are correct.
+The project holds the
+[OpenSSF Best Practices passing badge](https://www.bestpractices.dev/projects/15787).
 
 Report vulnerabilities according to [`SECURITY.md`](SECURITY.md).
 

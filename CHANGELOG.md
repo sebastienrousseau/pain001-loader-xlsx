@@ -21,6 +21,13 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
+### Added
+
+- The README's Security section names the project's
+  [OpenSSF Best Practices passing badge](https://www.bestpractices.dev/projects/15787),
+  meeting the OpenSSF Best Practices silver criterion
+  `documentation_achievements`.
+
 ### Fixed
 
 - Suite Consistency pins the core's ecosystem check at `febcd0a`, which
