@@ -1,0 +1,12 @@
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation
+    url: https://github.com/sebastienrousseau/pain001-loader-xlsx/blob/main/README.md
+    about: Read the documentation before opening an issue.
+  - name: Contributing guide
+    url: https://github.com/sebastienrousseau/pain001-loader-xlsx/blob/main/CONTRIBUTING.md
+    about: How changes are proposed, tested and reviewed.
+  - name: Report a vulnerability
+    url: https://github.com/sebastienrousseau/pain001-loader-xlsx/blob/main/SECURITY.md
+    about: Report security issues privately, never in a public issue.

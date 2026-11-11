@@ -581,9 +581,9 @@ openpyxl==3.1.5 \
     --hash=sha256:5282c12b107bffeef825f4617dc029afaf41d0ea60823bbb665ef3079dc79de2 \
     --hash=sha256:cf0e3cf56142039133628b5acffe8ef0c12bc902d2aadd3e0fe5878dc08d1050
     # via -r requirements/runtime.in
-pain001==0.0.85 \
-    --hash=sha256:6b05d1270949dc864b4d97c01184ef1f01d2a05f4f0d8f7c82c8229bcc545c2d \
-    --hash=sha256:97b36d450576644a1bd120624d50582bfc7c1cb5a565954bbae00843bfe3183e
+pain001==0.0.86 \
+    --hash=sha256:8d285cf4b22b3f35b4dfacf9046cb9806ac73d1d39afea513d459504d9e953b3 \
+    --hash=sha256:ed3da2429d23ebd5655bb0e69d0b6c9b4bfb232017c59181642c400d133591c1
     # via -r requirements/runtime.in
 pathspec==1.1.1 \
     --hash=sha256:17db5ecd524104a120e173814c90367a96a98d07c45b2e10c2f3919fff91bf5a \

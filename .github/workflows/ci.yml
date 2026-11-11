@@ -135,7 +135,7 @@ jobs:
         run: ruff format --check pain001_loader_xlsx/ tests/ examples/ benches/ scripts/ fuzz/
 
       - name: Mypy
-        run: mypy pain001_loader_xlsx/ scripts/check_complexity.py scripts/check_suite_consistency.py
+        run: mypy pain001_loader_xlsx/ scripts/check_complexity.py scripts/check_suite_consistency.py scripts/release_notes.py
 
   # The native advisory audit over every hash-pinned requirements file, so
   # a published advisory against pain001, openpyxl or a tool fails the pull

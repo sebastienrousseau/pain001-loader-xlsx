@@ -21,6 +21,45 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
+## [0.0.86] - 2026-11-11
+
+### Added
+
+- Add a code of conduct (adapted from Contributor Covenant 2.1, the
+  suite's shared text), issue forms, a pull request template, AGENTS.md
+  and a markdownlint CI job (`docs-lint.yml`, configured in
+  `.markdownlint-cli2.jsonc`).
+- Run the README Quick Start verbatim in the test suite
+  (`tests/test_readme.py`): it builds a workbook from core's
+  `pain.001.001.03` template rows, lists the loaders and generates XML,
+  so a CLI or entry-point change fails CI instead of a reader's terminal.
+- Add `.editorconfig`, a `.pre-commit-config.yaml` with hooks pinned by
+  commit SHA (pre-commit-hooks 6.0.0, ruff 0.17.4, codespell 2.4.3), a
+  devcontainer that installs the new hash-pinned `requirements/dev.txt`
+  and runs `make check`, and a codespell job in `docs-lint.yml`
+  (`make docs-lint` runs it with markdownlint).
+
+### Changed
+
+- Release 0.0.86 in lockstep with the pain001 suite and require core
+  pain001 0.0.86; the locks resolve its published artifacts.
+- Rewrite `DEVELOPMENT.md` as the single developer entry point:
+  toolchain, the local command for every CI job, the test layout, the
+  README pipeline and the release model. Correct `CONTRIBUTING.md`,
+  which named a `tests/test_stress.py` and a `perf` marker that do not
+  exist, and include `ARCHITECTURE.md` in the manual.
+- The README template is now byte-identical to the portfolio's canonical
+  `README-TEMPLATE.md`, the docs badge and Documentation links point at
+  the published manual, and the Examples section indexes both scripts.
+  `tests/test_readme.py` fails CI on drift from the sources, an
+  unresolved `{{TOKEN}}`, a dangling relative link or a section out of
+  the canonical order.
+- The manual's footer links the author's name on every page, and
+  `docs.yml` fails a build where a page lacks it. A separate `Link check`
+  job (`make linkcheck`) runs Sphinx linkcheck over external links, and
+  `tests/test_docs_links.py` checks every repository-relative link in
+  the Markdown sources offline.
+
 ## [0.0.85] - 2026-11-10
 
 ### Changed

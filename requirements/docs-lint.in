@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: 2026 Sebastien Rousseau <sebastian.rousseau@gmail.com>
+# SPDX-License-Identifier: Apache-2.0 OR MIT
+# Spelling for the docs-lint job (configured in pyproject.toml
+# [tool.codespell]). markdownlint-cli2 runs from npx at a pinned version.
+# Regenerate with: make pip-compile
+codespell==2.4.3

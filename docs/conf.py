@@ -5,10 +5,13 @@
 from __future__ import annotations
 
 import importlib.metadata
+from typing import Any
+
+from markupsafe import Markup
 
 project = "pain001-loader-xlsx"
 author = "Sebastien Rousseau"
-copyright = "2023-2026, Sebastien Rousseau"
+copyright = "2023-2026 Sebastien Rousseau"
 try:
     release = importlib.metadata.version("pain001-loader-xlsx")
 except importlib.metadata.PackageNotFoundError:
@@ -38,3 +41,33 @@ html_theme = "furo"
 html_title = f"pain001-loader-xlsx {release}"
 autodoc_member_order = "bysource"
 autodoc_typehints = "description"
+
+# `make linkcheck` and the docs.yml linkcheck job. GitHub renders heading
+# anchors client-side (user-content-*), so linkcheck cannot see them.
+linkcheck_anchors_ignore_for_url = [r"https://github\.com/.*"]
+linkcheck_retries = 3
+linkcheck_timeout = 30
+
+
+def _link_author(
+    app: Any,
+    pagename: str,
+    templatename: str,
+    context: dict[str, Any],
+    doctree: Any,
+) -> None:
+    """Link the author's name in every page footer.
+
+    The theme escapes ``copyright``; a ``Markup`` value passes through
+    unchanged, so the HTML footer carries the link and every other
+    builder keeps the plain text above.
+    """
+    context["copyright"] = Markup(
+        '2023-2026 <a href="https://sebastienrousseau.com/" rel="author">'
+        "Sebastien Rousseau</a>"
+    )
+
+
+def setup(app: Any) -> None:
+    """Register the footer hook."""
+    app.connect("html-page-context", _link_author)
