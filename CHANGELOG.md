@@ -34,6 +34,8 @@ misbehaving — but it is a safety net, not the versioning rule. See
   accepts the five pain001 SDK repositories as known members not yet
   released. From the 0.0.86 release until this change every scheduled
   run failed on them as undeclared repositories.
+- `ROADMAP.md` listed mutation testing as a candidate although
+  `mutation.yml` already runs it; it is now under Shipped.
 
 ## [0.0.86] - 2026-11-11
 
