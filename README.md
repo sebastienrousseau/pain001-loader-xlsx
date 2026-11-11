@@ -33,30 +33,30 @@ Releases adhere strictly to https://github.com/sebastienrousseau/passmcp/release
 
 **Getting started**
 
-- [Install](#install) — PyPI and source
-- [Requirements](#requirements) — toolchain floor, platforms
-- [Quick Start](#quick-start) — use the installed companion
+- [Install](#install): PyPI and source
+- [Requirements](#requirements): toolchain floor, platforms
+- [Quick Start](#quick-start): use the installed companion
 
 **The pain001-loader-xlsx ecosystem**
 
-- [The pain001-loader-xlsx ecosystem](#the-pain001-loader-xlsx-ecosystem) — core and this companion
+- [The pain001-loader-xlsx ecosystem](#the-pain001-loader-xlsx-ecosystem): core and this companion
 
 **Library reference**
 
-- [Capabilities at a glance](#capabilities-at-a-glance) — the current surface by theme
-- [Ecosystem comparison](#ecosystem-comparison) — short matrix; full table at [`docs/COMPARISON.md`](docs/COMPARISON.md)
-- [Benchmarks](#benchmarks) — headline numbers; full table at [`docs/BENCHMARKS.md`](docs/BENCHMARKS.md)
-- [Features](#features) — module-level capability list
-- [Configuration](#configuration) — core options
-- [Examples](#examples) — runnable example index
+- [Capabilities at a glance](#capabilities-at-a-glance): the current surface by theme
+- [Ecosystem comparison](#ecosystem-comparison): short matrix; full table at [`docs/COMPARISON.md`](docs/COMPARISON.md)
+- [Benchmarks](#benchmarks): headline numbers; full table at [`docs/BENCHMARKS.md`](docs/BENCHMARKS.md)
+- [Features](#features): module-level capability list
+- [Configuration](#configuration): core options
+- [Examples](#examples): runnable example index
 
 **Operational**
 
-- [When not to use pain001-loader-xlsx](#when-not-to-use-pain001-loader-xlsx) — limitations
-- [Development](#development) — make targets, fuzzing, CI
-- [Security](#security) — guarantees and compliance
-- [Documentation](#documentation) — all reference docs
-- [Stability guarantees](#stability-guarantees) — SemVer axis, output stability, minimum toolchain discipline
+- [When not to use pain001-loader-xlsx](#when-not-to-use-pain001-loader-xlsx): limitations
+- [Development](#development): make targets, fuzzing, CI
+- [Security](#security): guarantees and compliance
+- [Documentation](#documentation): all reference docs
+- [Stability guarantees](#stability-guarantees): SemVer axis, output stability, minimum toolchain discipline
 - [License](#license)
 
 ---
