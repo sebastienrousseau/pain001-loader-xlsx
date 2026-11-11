@@ -14,7 +14,7 @@ body:
     id: version
     attributes:
       label: pain001-loader-xlsx version
-      placeholder: "0.0.85"
+      placeholder: "0.0.86"
     validations:
       required: true
   - type: dropdown

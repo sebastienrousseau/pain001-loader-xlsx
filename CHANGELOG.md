@@ -21,6 +21,8 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
+## [0.0.86] - 2026-11-11
+
 ### Added
 
 - Add a code of conduct (adapted from Contributor Covenant 2.1, the
@@ -39,6 +41,7 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ### Changed
 
+- Release 0.0.86 in lockstep with the pain001 suite.
 - Rewrite `DEVELOPMENT.md` as the single developer entry point:
   toolchain, the local command for every CI job, the test layout, the
   README pipeline and the release model. Correct `CONTRIBUTING.md`,

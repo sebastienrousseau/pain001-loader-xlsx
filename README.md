@@ -69,7 +69,7 @@ Releases adhere strictly to https://github.com/sebastienrousseau/passmcp/release
 python -m pip install pain001-loader-xlsx
 ```
 
-> **Latest release: v0.0.85**: released in lockstep with the pain001
+> **Latest release: v0.0.86**: released in lockstep with the pain001
 > suite, for Python 3.11+; the loader is unchanged and requires
 > `pain001 >= 0.0.85`. See [CHANGELOG.md](CHANGELOG.md).
 
