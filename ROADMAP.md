@@ -14,6 +14,11 @@ calendar, and the maintainer decides what opens.
 - 100% line and branch coverage, docstring gate, benchmarks with scaling
   and memory guards, examples run by the tests; CodeQL, Dependabot, DCO
   and Scorecard; releases attested, signed and shipped with SBOMs.
+- Mutation testing (mutmut 3) of the loader and the normaliser on every
+  pull request into `main`, every push to `main` and weekly
+  (`.github/workflows/mutation.yml`); the build fails when the share of
+  reached mutants the tests kill drops below 86%
+  (`scripts/mutation_gate.py`).
 
 ## Candidates
 
@@ -22,8 +27,6 @@ calendar, and the maintainer decides what opens.
   loads without renaming headers. Needs the core's alias rules first.
 - **A workbook sample in the browser demo**, once the demo accepts a file
   upload beyond CSV.
-- **Mutation testing** on the loader and the normaliser on the pattern the
-  MCP and LSP servers use.
 
 ## Out of scope
 

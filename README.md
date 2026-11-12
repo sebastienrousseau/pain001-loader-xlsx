@@ -71,9 +71,9 @@ crates.io, npm and other registries, which do not resolve relative paths.
 python -m pip install pain001-loader-xlsx
 ```
 
-> **Latest release: v0.0.86**: released in lockstep with the pain001
+> **Latest release: v0.0.87**: released in lockstep with the pain001
 > suite, for Python 3.11+; the loader is unchanged and requires
-> `pain001 >= 0.0.86`. See [CHANGELOG.md](CHANGELOG.md).
+> `pain001 >= 0.0.87`. See [CHANGELOG.md](CHANGELOG.md).
 
 Published packages and development checkouts are distinct. Test unreleased
 changes on this companion's development branches against the matching core
@@ -217,6 +217,8 @@ Read-only workbook loading does not run macros or evaluate formulas. Numeric
 IBAN, temporal-cell and control-character guards reject known spreadsheet
 coercions. Loading a
 workbook does not prove its accounts, amounts or bank rules are correct.
+The project holds the
+[OpenSSF Best Practices passing badge](https://www.bestpractices.dev/projects/15787).
 
 Report vulnerabilities according to [`SECURITY.md`](SECURITY.md).
 
