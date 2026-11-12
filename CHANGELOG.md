@@ -23,6 +23,8 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ### Changed
 
+- Requires pain001 0.0.87, the suite version this release ships in
+  lockstep with.
 - Suite Consistency no longer runs on another workflow's completion
   (`workflow_run`). It audits the family daily and on dispatch, as the
   core's does, since that trigger runs with the default branch's trust
