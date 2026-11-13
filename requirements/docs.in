@@ -10,3 +10,7 @@ myst-parser>=3
 # GHSA-6q48-6c7w-9gw2: certifi before 2026.10.19 bundles emSign roots
 # with compromised intermediates; no affected release may resolve.
 certifi>=2026.10.23
+# soupsieve (via furo's beautifulsoup4) before 4.0.0 has a polynomial-time
+# DoS in the descendant combinator (GHSA-mmhr-3c5m-f64f); 4.x needs
+# Python 3.11.5, so the docs set compiles from 3.11.5.
+soupsieve>=4.0.0
