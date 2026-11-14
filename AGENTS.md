@@ -11,7 +11,7 @@ and [DEVELOPMENT.md](DEVELOPMENT.md) first.
 ## Versioning
 
 - The version is `0.0.x`, moves by `0.0.1`, and ships in lockstep with
-  the other eight `pain001` suite repositories. Never bump it as a side
+  the other thirteen `pain001` suite repositories. Never bump it as a side
   effect of a change.
 - It is restated in `pyproject.toml`, `pain001_loader_xlsx/__init__.py`
   and `CITATION.cff`, with a `## [0.0.N]` heading in `CHANGELOG.md`;
