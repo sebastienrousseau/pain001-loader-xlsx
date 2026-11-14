@@ -21,6 +21,14 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
+### Changed
+
+- Suite Consistency pins the core's ecosystem check at `404ebb9`, the
+  pain001 0.0.88 release, which audits the five SDK repositories with
+  the rest of the family; the job is now named "Every family
+  publication agrees". Regenerated from pain001's
+  `scripts/render_ecosystem_workflows.py`.
+
 ### Security
 
 - The docs toolchain requires soupsieve 4.0 or newer: earlier versions
