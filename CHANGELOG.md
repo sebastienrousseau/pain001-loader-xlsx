@@ -21,8 +21,11 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
+## [0.0.88] - 2026-11-14
+
 ### Changed
 
+- Release 0.0.88 in lockstep with the pain001 suite.
 - Requires pain001 0.0.88, the suite version this release ships in
   lockstep with.
 - Suite Consistency pins the core's ecosystem check at `404ebb9`, the
