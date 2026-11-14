@@ -28,6 +28,8 @@ misbehaving — but it is a safety net, not the versioning rule. See
   the rest of the family; the job is now named "Every family
   publication agrees". Regenerated from pain001's
   `scripts/render_ecosystem_workflows.py`.
+- AGENTS.md counts the fourteen suite repositories: the Go, Java,
+  Rust, .NET and C++ SDKs joined the family at 0.0.88.
 
 ### Security
 
