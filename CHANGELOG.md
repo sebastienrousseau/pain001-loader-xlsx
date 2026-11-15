@@ -21,8 +21,6 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
-## [0.0.89] - Unreleased
-
 ## [0.0.88] - 2026-11-14
 
 ### Changed
