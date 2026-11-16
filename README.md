@@ -71,9 +71,9 @@ crates.io, npm and other registries, which do not resolve relative paths.
 python -m pip install pain001-loader-xlsx
 ```
 
-> **Latest release: v0.0.88**: released in lockstep with the pain001
+> **Latest release: v0.0.89**: released in lockstep with the pain001
 > suite, for Python 3.11+; the loader is unchanged and requires
-> `pain001 >= 0.0.88`. See [CHANGELOG.md](CHANGELOG.md).
+> `pain001 >= 0.0.89`. See [CHANGELOG.md](CHANGELOG.md).
 
 Published packages and development checkouts are distinct. Test unreleased
 changes on this companion's development branches against the matching core
@@ -91,7 +91,7 @@ Python 3.11 or newer. CI tests 3.11–3.14 on Linux. See
 ## Quick Start
 
 ```bash
-pain001 plugins list --kind loader --json
+pain001 plugins list --kind loader --format json
 pain001 -t pain.001.001.03 -d payments.xlsx -o output
 ```
 

@@ -118,8 +118,8 @@ def measure() -> Report:
     return report
 
 
-def compare(current: Report, baseline: Report) -> list[str]:
-    """Return every way ``current`` breaks the ratchet on ``baseline``."""
+def _regressions(current: Report, baseline: Report) -> list[str]:
+    """Return every metric in ``current`` that is new or worse than before."""
     problems: list[str] = []
     for key, metrics in current.items():
         allowed = baseline.get(key, {})
@@ -130,6 +130,12 @@ def compare(current: Report, baseline: Report) -> list[str]:
                 problems.append(
                     f"{key}: {metric} rose from {allowed[metric]} to {value}"
                 )
+    return problems
+
+
+def _stale(current: Report, baseline: Report) -> list[str]:
+    """Return every baselined metric that improved or went away."""
+    problems: list[str] = []
     for key, metrics in baseline.items():
         for metric, value in metrics.items():
             now = current.get(key, {}).get(metric)
@@ -140,6 +146,11 @@ def compare(current: Report, baseline: Report) -> list[str]:
                     f"run with --update to shrink the baseline"
                 )
     return problems
+
+
+def compare(current: Report, baseline: Report) -> list[str]:
+    """Return every way ``current`` breaks the ratchet on ``baseline``."""
+    return _regressions(current, baseline) + _stale(current, baseline)
 
 
 def main(argv: list[str] | None = None) -> int:

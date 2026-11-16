@@ -21,6 +21,31 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
+## [0.0.89] - 2026-11-16
+
+### Changed
+
+- Release 0.0.89 in lockstep with the pain001 suite.
+- Requires pain001 0.0.89, the suite version this release ships in
+  lockstep with.
+- The hash-pinned development sets take this week's Dependabot
+  updates: ruff 0.17.5, filelock 4.2.10, myst-parser 5.2.0 with
+  mdit-py-plugins 0.7.0, and complexipy 9.0.0.
+- The complexity ratchet's `compare()` is split into `_regressions()`
+  and `_stale()`: complexipy 9 scores it at cognitive 18, over the
+  ceiling of 15. The report it produces is unchanged.
+
+### Fixed
+
+- `make pip-compile` resolves `requirements/docs.in` at Python 3.11.5,
+  the oldest version soupsieve 4 supports, and stops on the first
+  failure. At 3.11 the docs set could not resolve and the loop
+  swallowed the error, leaving `docs.txt` stale. `PIP_COMPILE_FLAGS`
+  passes extra uv flags, such as `-P myst-parser`.
+- The README's Quick Start lists loaders with
+  `pain001 plugins list --kind loader --format json`: pain001 0.0.89
+  removes the deprecated `--json` flag it used.
+
 ## [0.0.88] - 2026-11-14
 
 ### Changed
