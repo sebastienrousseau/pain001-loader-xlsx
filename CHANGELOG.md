@@ -21,6 +21,8 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
+## [0.0.89] - Unreleased
+
 ### Changed
 
 - Requires pain001 0.0.89, the suite version this release ships in
