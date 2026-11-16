@@ -91,7 +91,7 @@ Python 3.11 or newer. CI tests 3.11–3.14 on Linux. See
 ## Quick Start
 
 ```bash
-pain001 plugins list --kind loader --json
+pain001 plugins list --kind loader --format json
 pain001 -t pain.001.001.03 -d payments.xlsx -o output
 ```
 

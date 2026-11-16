@@ -24,7 +24,7 @@
   "ADDITIONAL_INSTALL_METHODS": "> **Latest release: v0.0.89**: released in lockstep with the pain001\n> suite, for Python 3.11+; the loader is unchanged and requires\n> `pain001 >= 0.0.89`. See [CHANGELOG.md](CHANGELOG.md).\n\nPublished packages and development checkouts are distinct. Test unreleased\nchanges on this companion's development branches against the matching core\nbranch. Versions track core 0.0.x releases.",
   "REQUIREMENTS_CONTENT": "Python 3.11 or newer. CI tests 3.11–3.14 on Linux. See\n[toolchain policy](docs/POLICIES.md); no distro-system-Python claim is made.",
   "QUICK_START_LANG": "bash",
-  "QUICK_START_SNIPPET": "pain001 plugins list --kind loader --json\npain001 -t pain.001.001.03 -d payments.xlsx -o output",
+  "QUICK_START_SNIPPET": "pain001 plugins list --kind loader --format json\npain001 -t pain.001.001.03 -d payments.xlsx -o output",
   "QUICK_START_EXPLANATION": "Supply `payments.xlsx` with core template column names; [examples/](examples/)\ncreates synthetic workbooks. `-o` specifies an output directory, not a filename.",
   "ECOSYSTEM_OVERVIEW": "This independently installed companion delegates payment behavior to core.\nCoordinated versioning does not imply branch changes have been released.",
   "COMPONENT_NAME": "[pain001](https://github.com/sebastienrousseau/pain001)",
