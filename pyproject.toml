@@ -20,7 +20,7 @@ classifiers = [
 ]
 
 dependencies = [
-    "pain001 >= 0.0.88, < 1",
+    "pain001 >= 0.0.89, < 1",
     "openpyxl >= 3.1, < 4",
 ]
 

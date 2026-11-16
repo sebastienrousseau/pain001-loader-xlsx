@@ -720,9 +720,9 @@ packaging==26.3 \
     --hash=sha256:94edc256424af38762eb31306eed28beb9f0efc50a8837492c9d6fd6004aed79 \
     --hash=sha256:d7193f7c8e4e93f444fde0262bf90af30e16fa0ad0ad44cb553c87339b23cd1c
     # via pytest
-pain001==0.0.88 \
-    --hash=sha256:72f8007ca74c4047053d70d81f2e41176f774aa8463ccfcc2cbd182944bfb0ff \
-    --hash=sha256:d9bf3088539365a71941a66ff78627fc47f1f0090199f9cda8346e8949574b5f
+pain001==0.0.89 \
+    --hash=sha256:1e1912b9df1aa3ec1729daf19e8b683786c5dfd587b62dabc7d2036e5ac93479 \
+    --hash=sha256:eab5b53466e8637bf4684ea1ee3e9f7f26c5755a3b34578a808fcc0b555604df
     # via -r requirements/runtime.in
 pathspec==1.1.1 \
     --hash=sha256:17db5ecd524104a120e173814c90367a96a98d07c45b2e10c2f3919fff91bf5a \
