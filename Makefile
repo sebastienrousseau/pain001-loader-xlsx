@@ -55,16 +55,21 @@ audit: ## pip-audit every hash-pinned requirements file (needs requirements/audi
 		pip-audit --progress-spinner off --require-hashes --disable-pip -r "$$f" || exit 1; \
 	done
 
+# The docs set compiles from Python 3.11.5 (soupsieve 4 needs it, see
+# requirements/docs.in). PIP_COMPILE_FLAGS passes extra uv flags, for
+# example PIP_COMPILE_FLAGS="-P myst-parser" to lift one existing pin.
 pip-compile: ## Regenerate hash-pinned requirements/*.txt from requirements/*.in
 	@command -v uv >/dev/null || { echo "uv is required: https://docs.astral.sh/uv/"; exit 1; }
 	@for f in requirements/*.in; do \
 		[ "$$f" = requirements/fuzz.in ] && continue; \
-		echo "compiling $$f"; \
-		uv pip compile --quiet --generate-hashes --universal \
-			--python-version 3.11 "$$f" -o "$${f%.in}.txt"; \
+		pyv=3.11; \
+		[ "$$f" = requirements/docs.in ] && pyv=3.11.5; \
+		echo "compiling $$f (Python $$pyv)"; \
+		uv pip compile --quiet --generate-hashes --universal $(PIP_COMPILE_FLAGS) \
+			--python-version "$$pyv" "$$f" -o "$${f%.in}.txt" || exit 1; \
 	done
 	@echo "compiling requirements/fuzz.in (Linux x86_64, Atheris wheels only)"
-	@uv pip compile --quiet --generate-hashes --python-platform x86_64-manylinux_2_17 \
+	@uv pip compile --quiet --generate-hashes --python-platform x86_64-manylinux_2_17 $(PIP_COMPILE_FLAGS) \
 		--python-version 3.12 requirements/fuzz.in -o requirements/fuzz.txt
 
 fuzz: ## Atheris for FUZZ_SECONDS (default 60); Linux x86_64, needs requirements/fuzz.txt
