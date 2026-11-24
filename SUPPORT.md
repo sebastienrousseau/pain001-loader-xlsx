@@ -92,8 +92,8 @@ Issues spanning multiple packages can be filed against `pain001`
 
 | Version | Supported? |
 | :--- | :--- |
-| 0.0.90 (latest) | ✅ |
-| 0.0.89 (prior) | ✅ security fixes |
-| ≤ 0.0.88 (0.0.76 was never published) | ❌ |
+| 0.0.91 (latest) | ✅ |
+| 0.0.90 (prior) | ✅ security fixes |
+| ≤ 0.0.89 (0.0.76 was never published) | ❌ |
 
 Requires Python 3.11+ and `pain001 >= 0.0.90`.

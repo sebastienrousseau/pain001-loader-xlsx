@@ -21,6 +21,8 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
+## [0.0.91] - Unreleased
+
 ### Changed
 
 - The hash-pinned development sets take this week's Dependabot
