@@ -21,17 +21,20 @@ misbehaving — but it is a safety net, not the versioning rule. See
 
 ## [Unreleased]
 
-## [0.0.91] - Unreleased
+## [0.0.91] - 2026-11-25
 
 ### Changed
 
+- Release 0.0.91 in lockstep with the pain001 suite.
+- Requires pain001 0.0.91, the suite version this release ships in
+  lockstep with. Suite Consistency pins the core's ecosystem check at
+  `83de54e`, the pain001 0.0.91 release.
 - The hash-pinned development sets take this week's Dependabot
   updates: ruff 0.17.6 (dev, lint), filelock 4.3.1 (audit) and
   soupsieve 4.1.3 (docs). The requirement inputs raise their floors to
   the versions Dependabot proposed.
-- CI actions: github/codeql-action 4.39.4, ossf/scorecard-action
-  2.6.0, and Suite Consistency pins the core's ecosystem check at
-  `3286059`, the pain001 0.0.90 release.
+- CI actions: github/codeql-action 4.39.4 and ossf/scorecard-action
+  2.6.0.
 
 ## [0.0.90] - 2026-11-16
 
